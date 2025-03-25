@@ -535,8 +535,7 @@ int main(int argc, char** argv)
     // 4. Start the freeze catcher thread
     //************************************************************************************************************************
     AntiFreezeThread* freezeThread = new AntiFreezeThread(1000 * sConfig.GetIntDefault("MaxCoreStuckTime", 0));
-    freezeThread->open(NULL);
-
+    freezeThread->start();
 
     //************************************************************************************************************************
     // 5. Start the console thread

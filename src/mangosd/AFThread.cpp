@@ -22,54 +22,69 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#include "ace/OS.h"
 #include "AFThread.h"
-#include "World.h"
 #include "Log.h"
 
-AntiFreezeThread::AntiFreezeThread(uint32 delay) : delaytime_(delay)
+#include <iostream>
+#include <thread>
+#include <stdexcept>
+#include <chrono>
+
+AntiFreezeThread::AntiFreezeThread(uint32_t delay) : delaytime(delay) { }
+
+AntiFreezeThread::~AntiFreezeThread()
 {
-    m_loops = 0;
-    w_loops = 0;
-    m_lastchange = 0;
-    w_lastchange = 0;
+    stop(); // Ensure the thread stops on object destruction
 }
 
-int AntiFreezeThread::open(void* unused)
+void AntiFreezeThread::start()
 {
-    activate();
-    return 0;
+    if (isRunning)
+        return; // Avoid starting the thread twice
+
+    isRunning = true;
+    antifreezeThread = std::thread(&AntiFreezeThread::run, this);
 }
 
-int AntiFreezeThread::svc(void)
+void AntiFreezeThread::stop()
 {
-    if (!delaytime_)
+    if (isRunning)
     {
-        return 0;
-    }
-
-    sLog.outString("AntiFreeze Thread started (%u seconds max stuck time)", delaytime_ / 1000);
-    while (!World::IsStopped())
-    {
-        ACE_OS::sleep(1);
-
-        uint32 curtime = getMSTime();
-
-        // normal work
-        if (w_loops != World::m_worldLoopCounter.value())
+        isRunning = false; // Signal the thread to stop
+        if (antifreezeThread.joinable())
         {
-              w_lastchange = curtime;
-              w_loops = World::m_worldLoopCounter.value();
+            antifreezeThread.join(); // Wait for the thread to finish
         }
-        // possible freeze
-        else if (getMSTimeDiff(w_lastchange, curtime) > delaytime_)
+    }
+}
+
+void AntiFreezeThread::run()
+{
+    if (delaytime == 0)
+        return;
+
+    sLog.outString("AntiFreeze Thread started ( %u seconds max stuck time)", delaytime / 1000);
+
+    while (isRunning)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        uint32_t curtime = static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::system_clock::now().time_since_epoch())
+                                .count());
+
+        if (w_loops != w_loops.load())  // Detect changes in world loop counter
         {
-            sLog.outError("World Thread hangs, kicking out server!");
-            *((uint32 volatile*)NULL) = 0;          // bang crash
+            w_lastchange = curtime;
+            w_loops = w_loops.load();
+        }
+        else if ((curtime - w_lastchange.load()) > delaytime)  // Possible freeze detected
+        {
+            sLog.outError("World Thread appears frozen! Initiating shutdown...");
+
+            throw std::runtime_error("World thread hangs, shutting down server.");
         }
     }
 
     sLog.outString("AntiFreeze Thread stopped.");
-    return 0;
 }
-

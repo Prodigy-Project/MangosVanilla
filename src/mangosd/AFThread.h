@@ -22,25 +22,35 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef ANTIFREEZE_THREAD
-#define ANTIFREEZE_THREAD
+#ifndef ANTIFREEZE_THREAD_H
+#define ANTIFREEZE_THREAD_H
 
-#include "ace/Task.h"
-#include "Common.h"
+#include <thread>
+#include <atomic>
+#include <cstdint>
+#include <chrono>
 
-class AntiFreezeThread : public ACE_Task_Base
+class AntiFreezeThread
 {
-    public:
-        explicit AntiFreezeThread(uint32 delay);
-        int open(void*) override;
-        int svc() override;
+public:
+    explicit AntiFreezeThread(uint32_t delay);
+    ~AntiFreezeThread();                      // Destructor to handle cleanup
 
-    private:
-        uint32 m_loops;
-        uint32 m_lastchange;
-        uint32 w_loops;
-        uint32 w_lastchange;
-        uint32 delaytime_;
+    void start();                             // Start the anti-freeze thread
+    void stop();                              // Graceful stop mechanism
+
+private:
+    void run();                               // Thread execution logic
+
+    std::thread antifreezeThread;            // Standard thread for anti-freeze logic
+    std::atomic<bool> isRunning { false };    // Flag to control thread running state
+
+    std::atomic<uint32_t> m_loops { 0 };      // Thread-safe loop counters
+    std::atomic<uint32_t> m_lastchange { 0 };
+    std::atomic<uint32_t> w_loops { 0 };
+    std::atomic<uint32_t> w_lastchange { 0 };
+
+    uint32_t delaytime;                      // Delay time in milliseconds
 };
 
-#endif
+#endif // ANTIFREEZE_THREAD_H
