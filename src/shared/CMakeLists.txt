@@ -110,6 +110,14 @@ set(SRC_GRP_LOG
 )
 source_group("Log" FILES ${SRC_GRP_LOG})
 
+set(SRC_GRP_LOGGING
+  Logging/Logging.cpp
+  Logging/Logging.h
+  Logging/LogDefines.h
+  Logging/LogToken.h
+)
+source_group("Logging" FILES ${SRC_GRP_LOGGING})
+
 set(SRC_GRP_THREAD
   Threading/DelayExecutor.cpp
   Threading/DelayExecutor.h
@@ -178,6 +186,7 @@ set(TGT_INCL
   Linux
   LockedQueue
   Log
+  Logging
   Threading
   Utilities
   Utilities/LinkedReference
@@ -203,6 +212,7 @@ add_library(shared STATIC
     ${SRC_GRP_GAMESYSTEM}
     ${SRC_GRP_LOCKQ}
     ${SRC_GRP_LOG}
+    ${SRC_GRP_LOGGING}
     ${SRC_GRP_THREAD}
     ${SRC_GRP_PLATFORM}
     ${SRC_GRP_POLICIES}
