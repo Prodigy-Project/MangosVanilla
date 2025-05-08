@@ -26,8 +26,8 @@
 #define LOGGING_H
 
 #include "Config.h"
-#include "LogDefines.h"   // remove when implemented into main project
-#include "LogToken.h"     // add to main project
+#include "LogDefines.h"
+#include "LogToken.h"
 
 enum LogLevelColor
 {
@@ -71,6 +71,12 @@ enum LoggingLevel
     LOG_LEVEL_ALL       = (1 << 12) - 1
 };
 
+enum LogOpenMode
+{
+    Append,
+    Overwrite
+};
+
 class Logging
 {
     public:
@@ -85,6 +91,7 @@ class Logging
         void Initialize();
         void InitRateLimiters();
         void LogOutput(LoggingLevel level, std::string_view str, va_list args);
+        inline void LogHelper(Logging* logger, LoggingLevel level, std::string_view str, ...);
 
         uint16 GetActiveLevels() const;
         void EnableLevel(LoggingLevel level);
@@ -104,7 +111,7 @@ class Logging
         void outFunction(std::string_view str, ...);
         void outSQL(std::string_view str, ...);
 
-        void SetLogFile(const std::string& filename);
+        void SetLogFile(const std::string& filename, LogOpenMode mode);
         void CloseLogFile();
 
         inline bool IsLogFileOpen() const
@@ -116,6 +123,10 @@ class Logging
         std::mutex m_log;
         std::ofstream m_logFile;
         std::string m_logFolder;
+
+        std::string token;
+        std::string log_enabled;
+        std::string log_disabled;
 
         uint16 m_activeLevels;
         std::map<LoggingLevel, LogToken> m_rateLimiters;

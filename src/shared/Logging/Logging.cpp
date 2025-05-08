@@ -34,9 +34,21 @@ void Logging::Initialize()
 {
     // set the default logging levels
     SetActiveLevels(LOG_LEVEL_DEBUG | LOG_LEVEL_ERROR | LOG_LEVEL_INFO | LOG_LEVEL_NOTICE | LOG_LEVEL_SQL | LOG_LEVEL_WARN);
-    m_activeLevels = GetActiveLevels();
 
-    std::string line;
+    m_logFolder = sConfig.GetStringDefault("LogsDir", "");
+    //m_logFile = sConfig.GetStringDefault("LogFile", "");
+
+    log_enabled = sConfig.GetStringDefault("Log.Enabled", "");
+    log_disabled = sConfig.GetStringDefault("Log.Disabled", "");
+
+    // todo: move log file naming to configuration
+    SetLogFile(m_logFolder + "world_server.log", LogOpenMode::Overwrite);
+
+    if (!m_logFolder.empty() && m_logFolder.back() != '/' && m_logFolder.back() != '\\')
+    {
+        m_logFolder += '/';
+    }
+
     std::unordered_map<std::string, LoggingLevel> level_map =
     {
         { "EMERG",  LOG_LEVEL_EMERG },
@@ -53,12 +65,23 @@ void Logging::Initialize()
         { "SQL",    LOG_LEVEL_SQL }
     };
 
-    m_logFolder = sConfig.GetStringDefault("LogsDir", "");
-    if (!m_logFolder.empty())
+    std::stringstream enabled(log_enabled);
+    while (std::getline(enabled, token, ','))
     {
-        if (m_logFolder.back() != '/' && m_logFolder.back() != '\\')
+        std::transform(token.begin(), token.end(), token.begin(), ::toupper);
+        if (level_map.find(token) != level_map.end())
         {
-            m_logFolder += '/'; // ensure it ends with a slash
+            EnableLevel(level_map[token]);
+        }
+    }
+
+    std::stringstream disabled(log_disabled);
+    while (std::getline(disabled, token, ','))
+    {
+        std::transform(token.begin(), token.end(), token.begin(), ::toupper);
+        if (level_map.find(token) != level_map.end())
+        {
+            DisableLevel(level_map[token]);
         }
     }
 
@@ -106,7 +129,7 @@ uint16 Logging::GetActiveLevels() const
     return m_activeLevels;
 }
 
-void Logging::SetLogFile(const std::string& filename)
+void Logging::SetLogFile(const std::string& filename, LogOpenMode mode)
 {
     std::lock_guard<std::mutex> lock(m_log);
 
@@ -115,7 +138,24 @@ void Logging::SetLogFile(const std::string& filename)
         m_logFile.close();
     }
 
-    m_logFile.open(filename, std::ios::out | std::ios::app);
+    std::ios_base::openmode open_mode = std::ios::out;
+    switch (mode)
+    {
+        case LogOpenMode::Append:
+            open_mode |= std::ios::app;
+            break;
+
+        case LogOpenMode::Overwrite:
+            open_mode |= std::ios::trunc;
+            break;
+
+        default:
+            fprintf(stderr, "Logging: Unknown file open mode. Defaulting to append.\n");
+            open_mode |= std::ios::app;
+            break;
+    }
+
+    m_logFile.open(filename, open_mode);
 
     if (!m_logFile)
     {
@@ -157,170 +197,76 @@ void Logging::LogOutput(LoggingLevel level, std::string_view str, va_list args)
     }
 }
 
-void Logging::outEmergency(std::string_view str, ...)
+inline void Logging::LogHelper(Logging* logger, LoggingLevel level, std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_EMERG))
+    if (!logger->IsLevelEnabled(level))
         return;
 
-    if (!m_rateLimiters[LOG_LEVEL_EMERG].consume(1.0))
+    if (!logger->m_rateLimiters[level].consume(1.0))
         return;
 
     va_list args;
     va_start(args, str);
-    LogOutput(LOG_LEVEL_EMERG, str, args);
+    logger->LogOutput(level, str, args);
     va_end(args);
+}
+
+void Logging::outEmergency(std::string_view str, ...)
+{
+    LogHelper(this, LOG_LEVEL_EMERG, str);
 }
 
 void Logging::outAlert(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_ALERT))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_ALERT].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_ALERT, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_ALERT, str);
 }
 
 void Logging::outCritical(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_CRIT))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_CRIT].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_CRIT, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_CRIT, str);
 }
 
 void Logging::outError(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_ERROR))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_ERROR].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_ERROR, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_ERROR, str);
 }
 
 void Logging::outWarning(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_WARN))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_WARN].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_WARN, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_WARN, str);
 }
 
 void Logging::outNotice(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_NOTICE))
-        return;
-
-    if(!m_rateLimiters[LOG_LEVEL_NOTICE].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_NOTICE, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_NOTICE, str);
 }
 
 void Logging::outInfo(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_INFO))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_INFO].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_INFO, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_INFO, str);
 }
 
 void Logging::outDebug(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_DEBUG))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_DEBUG].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_DEBUG, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_DEBUG, str);
 }
 
 void Logging::outTrace(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_TRACE))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_TRACE].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_TRACE, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_TRACE, str);
 }
 
 void Logging::outThread(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_THREAD))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_THREAD].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_THREAD, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_THREAD, str);
 }
 
 void Logging::outFunction(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_FUNC))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_FUNC].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_FUNC, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_FUNC, str);
 }
 
 void Logging::outSQL(std::string_view str, ...)
 {
-    if (!IsLevelEnabled(LOG_LEVEL_SQL))
-        return;
-
-    if (!m_rateLimiters[LOG_LEVEL_SQL].consume(1.0))
-        return;
-
-    va_list args;
-    va_start(args, str);
-    LogOutput(LOG_LEVEL_SQL, str, args);
-    va_end(args);
+    LogHelper(this, LOG_LEVEL_SQL, str);
 }
