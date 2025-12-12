@@ -56,7 +56,7 @@ class MapUpdateRequest : public ACE_Method_Request
          * @brief Executes the map update request.
          * @return Always returns 0.
          */
-        virtual int call()
+        int call() override
         {
             m_map.Update(m_diff);
             m_updater.update_finished();

@@ -44,8 +44,8 @@ struct EnchStoreItem
         : ench(_ench), chance(_chance) {}
 };
 
-typedef std::vector<EnchStoreItem> EnchStoreList;
-typedef UNORDERED_MAP<uint32, EnchStoreList> EnchantmentStore;
+using EnchStoreList = std::vector<EnchStoreItem>;
+using EnchantmentStore = std::unordered_map<uint32, EnchStoreList>;
 
 static EnchantmentStore RandomItemEnch;
 

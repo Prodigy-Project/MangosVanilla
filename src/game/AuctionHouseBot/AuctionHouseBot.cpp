@@ -64,8 +64,8 @@ struct BuyerItemInfo
     uint32  MinBidPrice;
 };
 
-typedef std::map<uint32, BuyerItemInfo > BuyerItemInfoMap;
-typedef std::map<uint32, BuyerAuctionEval > CheckEntryMap;
+using BuyerItemInfoMap = std::map<uint32, BuyerItemInfo>;
+using CheckEntryMap = std::map<uint32, BuyerAuctionEval>;
 
 /**
  * @brief Configuration structure for the Auction House Bot Buyer.
@@ -106,7 +106,7 @@ struct RandomArrayEntry
     uint32 itemclass;
 };
 
-typedef std::vector<RandomArrayEntry> RandomArray;
+using RandomArray = std::vector<RandomArrayEntry>;
 
 /**
  * @brief Structure to store seller item class information.
@@ -215,7 +215,7 @@ class AuctionBotBuyer : public AuctionBotAgent
 {
 public:
     AuctionBotBuyer();
-    ~AuctionBotBuyer();
+    ~AuctionBotBuyer() override;
 
     bool        Initialize() override;
     /**
@@ -303,7 +303,7 @@ private:
 class AuctionBotSeller : public AuctionBotAgent
 {
 public:
-    typedef std::vector<uint32> ItemPool;
+    using ItemPool = std::vector<uint32>;
     /**
      * Initializes a new instance of the \ref AuctionBotSeller class.
      */
@@ -311,7 +311,7 @@ public:
     /**
      * Finalizes an instance of the \ref AuctionBotSeller class.
      */
-    ~AuctionBotSeller();
+    ~AuctionBotSeller() override;
 
     /**
      * Initializes this instance.
@@ -857,7 +857,7 @@ uint32 AuctionBotBuyer::GetBuyableEntry(AHB_Buyer_Config& config)
 {
     config.SameItemInfo.clear();
     uint32 count = 0;
-    time_t Now = time(NULL);
+    time_t Now = time(nullptr);
 
     AuctionHouseObject::AuctionEntryMapBounds bounds = sAuctionMgr.GetAuctionsMap(config.GetHouseType())->GetAuctionsBounds();
     for (AuctionHouseObject::AuctionEntryMap::const_iterator itr = bounds.first; itr != bounds.second; ++itr)
@@ -936,7 +936,7 @@ uint32 AuctionBotBuyer::GetBuyableEntry(AHB_Buyer_Config& config)
  */
 void AuctionBotBuyer::PrepareListOfEntry(AHB_Buyer_Config& config)
 {
-    time_t Now = time(NULL) - 5;
+    time_t Now = time(nullptr) - 5;
 
     for (CheckEntryMap::iterator itr = config.CheckedEntry.begin(); itr != config.CheckedEntry.end();)
     {
@@ -1149,7 +1149,7 @@ void AuctionBotBuyer::addNewAuctionBuyerBotBid(AHB_Buyer_Config& config)
 
     PrepareListOfEntry(config);
 
-    time_t Now = time(NULL);
+    time_t Now = time(nullptr);
     uint32 BuyCycles;
     if (config.CheckedEntry.size() > sAuctionBotConfig.GetItemPerCycleBoost())
     {
@@ -2305,7 +2305,7 @@ bool AuctionBotSeller::Update(AuctionHouseType houseType)
  * @brief Constructor for AuctionHouseBot.
  * Initializes the buyer and seller pointers to NULL and sets the operation selector to 0.
  */
-AuctionHouseBot::AuctionHouseBot() : m_Buyer(NULL), m_Seller(NULL), m_OperationSelector(0)
+AuctionHouseBot::AuctionHouseBot() : m_Buyer(nullptr), m_Seller(nullptr), m_OperationSelector(0)
 {
 }
 
@@ -2332,7 +2332,7 @@ void AuctionHouseBot::InitializeAgents()
         if (!m_Seller->Initialize())
         {
             delete m_Seller;
-            m_Seller = NULL;
+            m_Seller = nullptr;
         }
     }
     // Initialize the buyer agent if enabled in the configuration
@@ -2343,7 +2343,7 @@ void AuctionHouseBot::InitializeAgents()
         if (!m_Buyer->Initialize())
         {
             delete m_Buyer;
-            m_Buyer = NULL;
+            m_Buyer = nullptr;
         }
     }
 }

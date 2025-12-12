@@ -155,7 +155,7 @@ bool ChatHandler::HandleCharacterRenameCommand(char* args)
     else
     {
         // check offline security
-        if (HasLowerSecurity(NULL, target_guid))
+        if (HasLowerSecurity(nullptr, target_guid))
         {
             return false;
         }
@@ -691,7 +691,7 @@ bool ChatHandler::HandleItemMoveCommand(char* args)
         return false;
     }
 
-    char* pParam2 = strtok(NULL, " ");
+    char* pParam2 = strtok(nullptr, " ");
     if (!pParam2)
     {
         return false;
@@ -871,7 +871,7 @@ bool ChatHandler::HandleExploreCheatCommand(char* args)
     int flag = atoi(args);
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -913,7 +913,7 @@ bool ChatHandler::HandleExploreCheatCommand(char* args)
 bool ChatHandler::HandleLevelUpCommand(char* args)
 {
     int32 addlevel = 1;
-    char* nameStr = NULL;
+    char* nameStr = nullptr;
 
     if (*args)
     {
@@ -973,7 +973,7 @@ bool ChatHandler::HandleShowAreaCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1006,7 +1006,7 @@ bool ChatHandler::HandleHideAreaCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1212,7 +1212,7 @@ bool ChatHandler::HandleAddItemSetCommand(char* args)
             }
             else
             {
-                pl->SendEquipError(msg, NULL, NULL, pProto->ItemId);
+                pl->SendEquipError(msg, nullptr, nullptr, pProto->ItemId);
                 PSendSysMessage(LANG_ITEM_CANNOT_CREATE, pProto->ItemId, 1);
             }
         }
@@ -1377,7 +1377,7 @@ bool ChatHandler::HandleModifyHPCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1421,7 +1421,7 @@ bool ChatHandler::HandleModifyManaCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1511,7 +1511,7 @@ bool ChatHandler::HandleModifyRageCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1586,7 +1586,7 @@ bool ChatHandler::HandleModifyASpeedCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1639,7 +1639,7 @@ bool ChatHandler::HandleModifySpeedCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1690,7 +1690,7 @@ bool ChatHandler::HandleModifySwimCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1741,7 +1741,7 @@ bool ChatHandler::HandleModifyBWalkCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);
@@ -1791,7 +1791,7 @@ bool ChatHandler::HandleModifyScaleCommand(char* args)
     }
 
     Unit* target = getSelectedUnit();
-    if (target == NULL)
+    if (target == nullptr)
     {
         SendSysMessage(LANG_SELECT_CHAR_OR_CREATURE);
         SetSentErrorMessage(true);
@@ -2092,7 +2092,7 @@ bool ChatHandler::HandleModifyMoneyCommand(char* args)
     }
 
     Player* chr = getSelectedPlayer();
-    if (chr == NULL)
+    if (chr == nullptr)
     {
         SendSysMessage(LANG_NO_CHAR_SELECTED);
         SetSentErrorMessage(true);

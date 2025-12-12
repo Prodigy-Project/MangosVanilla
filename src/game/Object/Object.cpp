@@ -57,7 +57,7 @@ Object::Object()
     m_objectTypeId      = TYPEID_OBJECT;
     m_objectType        = TYPEMASK_OBJECT;
 
-    m_uint32Values      = NULL;
+    m_uint32Values      = nullptr;
     m_valuesCount       = 0;
 
     m_inWorld           = false;
@@ -233,7 +233,7 @@ void Object::DestroyForPlayer(Player* target) const
 
 void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
 {
-    Unit const* unit = NULL;
+    Unit const* unit = nullptr;
     uint32 highGuid = 0;
     MovementFlags moveflags = MOVEFLAG_NONE;
 
@@ -911,7 +911,7 @@ WorldObject::WorldObject() :
 #ifdef ENABLE_ELUNA
     elunaEvents(nullptr),
 #endif /* ENABLE_ELUNA */
-    m_currMap(NULL),
+    m_currMap(nullptr),
     m_mapId(0), m_InstanceId(0),
     m_isActiveObject(false)
 {
@@ -1451,7 +1451,7 @@ namespace MaNGOS
                 : i_object(obj), i_msgtype(msgtype), i_textData(textData), i_language(language), i_target(target) {}
             void operator()(WorldPacket& data, int32 loc_idx)
             {
-                char const* text = NULL;
+                char const* text = nullptr;
                 if ((int32)i_textData->Content.size() > loc_idx + 1 && !i_textData->Content[loc_idx + 1].empty())
                 {
                     text = i_textData->Content[loc_idx + 1].c_str();
@@ -1599,7 +1599,7 @@ Creature* WorldObject::SummonCreature(uint32 id, float x, float y, float z, floa
     if (!cinfo)
     {
         sLog.outErrorDb("WorldObject::SummonCreature: Creature (Entry: %u) not existed for summoner: %s. ", id, GetGuidStr().c_str());
-        return NULL;
+        return nullptr;
     }
 
     TemporarySummon* pCreature = new TemporarySummon(GetObjectGuid());
@@ -1620,7 +1620,7 @@ Creature* WorldObject::SummonCreature(uint32 id, float x, float y, float z, floa
     if (!pCreature->Create(GetMap()->GenerateLocalLowGuid(cinfo->GetHighGuid()), pos, cinfo, team))
     {
         delete pCreature;
-        return NULL;
+        return nullptr;
     }
 
     pCreature->SetRespawnCoord(pos);
@@ -1666,13 +1666,13 @@ GameObject* WorldObject::SummonGameObject(uint32 id, float x, float y, float z, 
 
     if (!map)
     {
-        return NULL;
+        return nullptr;
     }
 
     if (!pGameObj->Create(map->GenerateLocalLowGuid(HIGHGUID_GAMEOBJECT), id, map, x, y, z, angle))
     {
         delete pGameObj;
-        return NULL;
+        return nullptr;
     }
 
     pGameObj->SetRespawnTime(despwtime/IN_MILLISECONDS);

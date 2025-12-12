@@ -109,7 +109,7 @@ bool SqlQuery::Execute(SqlConnection* conn)
 void SqlResultQueue::Update()
 {
     /// execute the callbacks waiting in the synchronization queue
-    MaNGOS::IQueryCallback* callback = NULL;
+    MaNGOS::IQueryCallback* callback = nullptr;
     while (next(callback))
     {
         callback->Execute();
@@ -147,7 +147,7 @@ bool SqlQueryHolder::SetQuery(size_t index, const char* sql)
     }
 
     /// not executed yet, just stored (it's not called a holder for nothing)
-    m_queries[index] = SqlResultPair(mangos_strdup(sql), (QueryResult*)NULL);
+    m_queries[index] = SqlResultPair(mangos_strdup(sql), (QueryResult*)nullptr);
     return true;
 }
 
@@ -189,7 +189,7 @@ QueryResult* SqlQueryHolder::GetResult(size_t index)
     }
     else
     {
-        return NULL;
+        return nullptr;
     }
 }
 

@@ -195,7 +195,7 @@ LocalTransport::~LocalTransport()
 
 bool LocalTransport::Initialize(uint32 guid, Map* m)
 {
-    if (m == NULL)
+    if (m == nullptr)
     {
         return false;
     }
@@ -306,7 +306,7 @@ bool GlobalTransport::Initialize(uint32 entry, uint32 period, std::string const&
     }
 
     Map* m = sMapMgr.CreateMap(mapid, this);
-    if (m == NULL)
+    if (m == nullptr)
     {
         return false;
     }

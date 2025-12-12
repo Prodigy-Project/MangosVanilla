@@ -77,7 +77,7 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
     {
         ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
         AreaTableEntry const* area = channel ? sAreaStore.LookupEntry(
-            (channel->ChannelID == tradeChannelID || channel->ChannelID == guildRecruitmentChannelID) ? cityLookupAreaID : playerZoneId) : NULL;
+            (channel->ChannelID == tradeChannelID || channel->ChannelID == guildRecruitmentChannelID) ? cityLookupAreaID : playerZoneId) : nullptr;
 
         if (area && channel)
         {

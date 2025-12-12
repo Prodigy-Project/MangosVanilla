@@ -191,7 +191,7 @@ GroupQueueInfo* BattleGroundQueue::AddGroup(Player* leader, Group* grp, BattleGr
         // ACE_Guard<ACE_Recursive_Thread_Mutex> guard(m_Lock);
         if (grp)
         {
-            for (GroupReference* itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
+            for (GroupReference* itr = grp->GetFirstMember(); itr != nullptr; itr = itr->next())
             {
                 Player* member = itr->getSource();
                 if (!member)
@@ -1098,7 +1098,7 @@ BattleGround* BattleGroundMgr::GetBattleGroundThroughClientInstance(uint32 insta
     BattleGround* bg = GetBattleGroundTemplate(bgTypeId);
     if (!bg)
     {
-        return NULL;
+        return nullptr;
     }
 
     for (BattleGroundSet::iterator itr = m_BattleGrounds[bgTypeId].begin(); itr != m_BattleGrounds[bgTypeId].end(); ++itr)
@@ -1108,7 +1108,7 @@ BattleGround* BattleGroundMgr::GetBattleGroundThroughClientInstance(uint32 insta
             return itr->second;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 BattleGround* BattleGroundMgr::GetBattleGround(uint32 InstanceID, BattleGroundTypeId bgTypeId)
@@ -1125,7 +1125,7 @@ BattleGround* BattleGroundMgr::GetBattleGround(uint32 InstanceID, BattleGroundTy
                 return itr->second;
             }
         }
-        return NULL;
+        return nullptr;
     }
     itr = m_BattleGrounds[bgTypeId].find(InstanceID);
     return ((itr != m_BattleGrounds[bgTypeId].end()) ? itr->second : NULL);
@@ -1167,10 +1167,10 @@ BattleGround* BattleGroundMgr::CreateNewBattleGround(BattleGroundTypeId bgTypeId
     if (!bg_template)
     {
         sLog.outError("BattleGround: CreateNewBattleGround - bg template not found for %u", bgTypeId);
-        return NULL;
+        return nullptr;
     }
 
-    BattleGround* bg = NULL;
+    BattleGround* bg = nullptr;
     // create a copy of the BG template
     switch (bgTypeId)
     {
@@ -1185,7 +1185,7 @@ BattleGround* BattleGroundMgr::CreateNewBattleGround(BattleGroundTypeId bgTypeId
             break;
         default:
             // error, but it is handled few lines above
-            return 0;
+            return nullptr;
     }
 
     // will also set m_bgMap, instanceid

@@ -65,7 +65,7 @@ bool ChatHandler::HandleMmapPathCommand(char* args)
         if (strcmp(para, "go") == 0)
         {
             followPath = true;
-            para = strtok(NULL, " ");
+            para = strtok(nullptr, " ");
             if (para && strcmp(para, "straight") == 0)
             {
                 useStraightPath = true;
@@ -180,7 +180,7 @@ bool ChatHandler::HandleMmapLocCommand(char* /*args*/)
     // navmesh poly -> navmesh tile location
     dtQueryFilter filter = dtQueryFilter();
     dtPolyRef polyRef = INVALID_POLYREF;
-    navmeshquery->findNearestPoly(location, extents, &filter, &polyRef, NULL);
+    navmeshquery->findNearestPoly(location, extents, &filter, &polyRef, nullptr);
 
     if (polyRef == INVALID_POLYREF)
     {

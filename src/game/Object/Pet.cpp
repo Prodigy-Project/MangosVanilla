@@ -96,7 +96,7 @@ void Pet::RemoveFromWorld()
     ///- Remove the pet from the accessor
     if (IsInWorld())
     {
-        GetMap()->GetObjectsStore().erase<Pet>(GetObjectGuid(), (Pet*)NULL);
+        GetMap()->GetObjectsStore().erase<Pet>(GetObjectGuid(), (Pet*)nullptr);
     }
 
     ///- Don't call the function for Creature, normal mobs + totems go in a different storage
@@ -255,7 +255,7 @@ bool Pet::LoadPetFromDB(Player* owner, uint32 petentry, uint32 petnumber, bool c
 
     SetCanModifyStats(true);
     InitStatsForLevel(petlevel);
-    SetUInt32Value(UNIT_FIELD_PET_NAME_TIMESTAMP, uint32(time(NULL)));
+    SetUInt32Value(UNIT_FIELD_PET_NAME_TIMESTAMP, uint32(time(nullptr)));
     SetUInt32Value(UNIT_FIELD_PETEXPERIENCE, fields[5].GetUInt32());
     SetCreatorGuid(owner->GetObjectGuid());
 
@@ -312,7 +312,7 @@ bool Pet::LoadPetFromDB(Player* owner, uint32 petentry, uint32 petnumber, bool c
     }
 
     // since last save (in seconds)
-    uint32 timediff = uint32(time(NULL) - fields[18].GetUInt64());
+    uint32 timediff = uint32(time(nullptr) - fields[18].GetUInt64());
 
     delete result;
 
@@ -520,7 +520,7 @@ void Pet::SavePetToDB(PetSaveMode mode)
         }
         savePet.addString(ss);
 
-        savePet.addUInt64(uint64(time(NULL)));
+        savePet.addUInt64(uint64(time(nullptr)));
         savePet.addUInt32(uint32(m_resetTalentsCost));
         savePet.addUInt64(uint64(m_resetTalentsTime));
         savePet.addUInt32(GetUInt32Value(UNIT_CREATED_BY_SPELL));
@@ -607,7 +607,7 @@ void Pet::Update(uint32 update_diff, uint32 diff)
     {
         case CORPSE:
         {
-            if (getPetType() != HUNTER_PET || m_corpseRemoveTime <= time(NULL))
+            if (getPetType() != HUNTER_PET || m_corpseRemoveTime <= time(nullptr))
             {
                 Unsummon(PET_SAVE_NOT_IN_SLOT);
                 return;
@@ -981,7 +981,7 @@ void Pet::Unsummon(PetSaveMode mode, Unit* owner /*= NULL*/)
             return;
         }
 
-        Player* p_owner = owner->GetTypeId() == TYPEID_PLAYER ? (Player*)owner : NULL;
+        Player* p_owner = owner->GetTypeId() == TYPEID_PLAYER ? (Player*)owner : nullptr;
 
         if (p_owner)
         {
@@ -1036,7 +1036,7 @@ void Pet::Unsummon(PetSaveMode mode, Unit* owner /*= NULL*/)
             case MINI_PET:
                 if (p_owner)
                 {
-                    p_owner->_SetMiniPet(NULL);
+                    p_owner->_SetMiniPet(nullptr);
                 }
                 break;
             case GUARDIAN_PET:
@@ -1045,7 +1045,7 @@ void Pet::Unsummon(PetSaveMode mode, Unit* owner /*= NULL*/)
             default:
                 if (owner->GetPetGuid() == GetObjectGuid())
                 {
-                    owner->SetPet(NULL);
+                    owner->SetPet(nullptr);
                 }
                 break;
         }
@@ -1471,7 +1471,7 @@ void Pet::_LoadSpellCooldowns()
 
     if (result)
     {
-        time_t curTime = time(NULL);
+        time_t curTime = time(nullptr);
 
         WorldPacket data(SMSG_SPELL_COOLDOWN, (8 + size_t(result->GetRowCount()) * 8));
         data << ObjectGuid(GetObjectGuid());
@@ -1521,7 +1521,7 @@ void Pet::_SaveSpellCooldowns()
     SqlStatement stmt = CharacterDatabase.CreateStatement(delSpellCD, "DELETE FROM `pet_spell_cooldown` WHERE `guid` = ?");
     stmt.PExecute(m_charmInfo->GetPetNumber());
 
-    time_t curTime = time(NULL);
+    time_t curTime = time(nullptr);
 
     // remove oudated and save active
     for (CreatureSpellCooldowns::iterator itr = m_CreatureSpellCooldowns.begin(); itr != m_CreatureSpellCooldowns.end();)
@@ -1681,7 +1681,7 @@ void Pet::_LoadAuras(uint32 timediff)
                 stackcount = 1;
             }
 
-            SpellAuraHolder* holder = CreateSpellAuraHolder(spellproto, this, NULL);
+            SpellAuraHolder* holder = CreateSpellAuraHolder(spellproto, this, nullptr);
             holder->SetLoadedState(casterGuid, ObjectGuid(HIGHGUID_ITEM, item_lowguid), stackcount, remaincharges, maxduration, remaintime);
 
             for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
@@ -1691,7 +1691,7 @@ void Pet::_LoadAuras(uint32 timediff)
                     continue;
                 }
 
-                Aura* aura = CreateAura(spellproto, SpellEffectIndex(i), NULL, holder, this);
+                Aura* aura = CreateAura(spellproto, SpellEffectIndex(i), nullptr, holder, this);
                 if (!damage[i])
                 {
                     damage[i] = aura->GetModifier()->m_amount;
@@ -2035,7 +2035,7 @@ void Pet::InitPetCreateSpells()
     if (CreateSpells)
     {
         Unit* owner = GetOwner();
-        Player* p_owner = owner && owner->GetTypeId() == TYPEID_PLAYER ? (Player*)owner : NULL;
+        Player* p_owner = owner && owner->GetTypeId() == TYPEID_PLAYER ? (Player*)owner : nullptr;
 
         for (uint8 i = 0; i < 4; ++i)
         {
@@ -2333,7 +2333,7 @@ void Pet::CastPetAura(PetAura const* aura)
     if (auraId == 35696)                                    // Demonic Knowledge
     {
         int32 basePoints = int32(aura->GetDamage() * (GetStat(STAT_STAMINA) + GetStat(STAT_INTELLECT)) / 100);
-        CastCustomSpell(this, auraId, &basePoints, NULL, NULL, true);
+        CastCustomSpell(this, auraId, &basePoints, nullptr, nullptr, true);
     }
     else
     {
@@ -2393,7 +2393,7 @@ void Pet::ApplyModeFlags(PetModeFlags mode, bool apply)
 void Pet::UpdateSpeed(UnitMoveType mtype, bool forced, float ratio)
 {
     Unit* unitOwner = GetOwner();
-    Player *owner = unitOwner ? unitOwner->ToPlayer() : NULL;
+    Player *owner = unitOwner ? unitOwner->ToPlayer() : nullptr;
     if (!owner)
     {
         return Unit::UpdateSpeed(mtype, forced, ratio);         // NPC pets are usual creatures

@@ -217,7 +217,7 @@ bool ChatHandler::HandleListItemCommand(char* args)
             uint32 owner_acc = fields[4].GetUInt32();
             std::string owner_name = fields[5].GetCppString();
 
-            char const* item_pos = 0;
+            char const* item_pos = nullptr;
             if (Player::IsEquipmentPos(item_bag, item_slot))
             {
                 item_pos = "[equipped]";
@@ -274,7 +274,7 @@ bool ChatHandler::HandleListItemCommand(char* args)
     }
     else
     {
-        result = NULL;
+        result = nullptr;
     }
 
     if (result)
@@ -330,7 +330,7 @@ bool ChatHandler::HandleListItemCommand(char* args)
     }
     else
     {
-        result = NULL;
+        result = nullptr;
     }
 
     if (result)

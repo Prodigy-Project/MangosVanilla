@@ -45,7 +45,7 @@
 
 WorldSocketMgr::WorldSocketMgr()
   : m_SockOutKBuff(-1), m_SockOutUBuff(65536), m_UseNoDelay(true),
-    reactor_(NULL), acceptor_(NULL)
+    reactor_(nullptr), acceptor_(nullptr)
 {
     InitializeOpcodes();
 }
@@ -96,7 +96,7 @@ int WorldSocketMgr::StartNetwork(ACE_INET_Addr& addr)
     m_UseNoDelay = sConfig.GetBoolDefault("Network.TcpNodelay", true);
 
 
-    ACE_Reactor_Impl* imp = 0;
+    ACE_Reactor_Impl* imp = nullptr;
     imp = new ACE_TP_Reactor();
     imp->max_notify_iterations(128);
     reactor_ = new ACE_Reactor(imp, 1);

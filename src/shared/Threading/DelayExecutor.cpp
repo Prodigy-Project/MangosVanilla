@@ -101,7 +101,7 @@ int DelayExecutor::_activate(int num_threads)
 
 int DelayExecutor::execute(ACE_Method_Request* new_req)
 {
-    if (new_req == NULL)
+    if (new_req == nullptr)
     {
         return -1;
     }

@@ -104,7 +104,7 @@ bool WorldSessionFilter::Process(WorldPacket* packet)
 /// WorldSession constructor
 WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, time_t mute_time, LocaleConstant locale) :
     m_muteTime(mute_time),
-    _player(NULL), m_Socket(sock), _security(sec), _accountId(id), _warden(NULL), _build(0), _logoutTime(0),
+    _player(nullptr), m_Socket(sock), _security(sec), _accountId(id), _warden(nullptr), _build(0), _logoutTime(0),
     m_inQueue(false), m_playerLoading(false), m_playerLogout(false), m_playerRecentlyLogout(false), m_playerSave(false),
     m_sessionDbcLocale(sWorld.GetAvailableDbcLocale(locale)), m_sessionDbLocaleIndex(sObjectMgr.GetIndexForLocale(locale)),
     m_latency(0), m_clientTimeDelay(0), m_tutorialState(TUTORIALDATA_UNCHANGED)
@@ -130,7 +130,7 @@ WorldSession::~WorldSession()
     {
         m_Socket->CloseSocket();
         m_Socket->RemoveReference();
-        m_Socket = NULL;
+        m_Socket = nullptr;
     }
 
     // Warden
@@ -140,7 +140,7 @@ WorldSession::~WorldSession()
     }
 
     ///- empty incoming packet queue
-    WorldPacket* packet = NULL;
+    WorldPacket* packet = nullptr;
     while (_recvQueue.next(packet))
     {
         delete packet;
@@ -257,7 +257,7 @@ bool WorldSession::Update(PacketFilter& updater)
 {
     ///- Retrieve packets from the receive queue and call the appropriate handlers
     /// not process packets if socket already closed
-    WorldPacket* packet = NULL;
+    WorldPacket* packet = nullptr;
     while (m_Socket && !m_Socket->IsClosed() && _recvQueue.next(packet, updater))
     {
         /*#if 1
@@ -383,7 +383,7 @@ bool WorldSession::Update(PacketFilter& updater)
     if (m_Socket && m_Socket->IsClosed())
     {
         m_Socket->RemoveReference();
-        m_Socket = NULL;
+        m_Socket = nullptr;
     }
 
     // Warden
@@ -397,7 +397,7 @@ bool WorldSession::Update(PacketFilter& updater)
     if (updater.ProcessLogout())
     {
         ///- If necessary, log the player out
-        time_t currTime = time(NULL);
+        time_t currTime = time(nullptr);
         if (!m_Socket || (ShouldLogOut(currTime) && !m_playerLoading))
         {
             LogoutPlayer(true);
@@ -649,7 +649,7 @@ void WorldSession::LogoutPlayer(bool Save)
             Map::DeleteFromWorld(_player);
         }
 
-        SetPlayer(NULL);                                    // deleted in Remove/DeleteFromWorld call
+        SetPlayer(nullptr);                                    // deleted in Remove/DeleteFromWorld call
 
         ///- Send the 'logout complete' packet to the client
         WorldPacket data(SMSG_LOGOUT_COMPLETE, 0);

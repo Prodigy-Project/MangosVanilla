@@ -117,7 +117,7 @@ int ThreadPriority::getPriority(Priority p) const
 # define THREADFLAG (THR_NEW_LWP | THR_JOINABLE)
 #endif
 
-Thread::Thread() : m_iThreadId(0), m_hThreadHandle(0), m_task(0)
+Thread::Thread() : m_iThreadId(0), m_hThreadHandle(0), m_task(nullptr)
 {
 }
 
@@ -149,7 +149,7 @@ ThreadPriority Thread::m_TpEnum;
 
 bool Thread::start()
 {
-    if (m_task == 0 || m_iThreadId != 0)
+    if (m_task == nullptr || m_iThreadId != 0)
     {
         return false;
     }
@@ -222,7 +222,7 @@ ACE_THR_FUNC_RETURN Thread::ThreadTask(void* param)
     // task execution complete, free referecne added at
     _task->decReference();
 
-    return (ACE_THR_FUNC_RETURN)0;
+    return (ACE_THR_FUNC_RETURN)nullptr;
 }
 
 void Thread::setPriority(Priority type)

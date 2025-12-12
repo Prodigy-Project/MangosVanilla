@@ -32,8 +32,8 @@
 
 #include <map>
 
-typedef std::map<uint32, uint32> AreaIDByAreaFlag;
-typedef std::map<uint32, uint32> AreaFlagByMapID;
+using AreaIDByAreaFlag = std::map<uint32, uint32>;
+using AreaFlagByMapID = std::map<uint32, uint32>;
 
 struct WMOAreaTableTripple
 {
@@ -52,7 +52,7 @@ struct WMOAreaTableTripple
     int32 adtId;
 };
 
-typedef std::map<WMOAreaTableTripple, WMOAreaTableEntry const*> WMOAreaInfoByTripple;
+using WMOAreaInfoByTripple = std::map<WMOAreaTableTripple, const WMOAreaTableEntry *>;
 
 DBCStorage <AreaTableEntry> sAreaStore(AreaTableEntryfmt);
 static AreaIDByAreaFlag sAreaIDByAreaFlag;
@@ -80,7 +80,7 @@ DBCStorage <DurabilityCostsEntry> sDurabilityCostsStore(DurabilityCostsfmt);
 DBCStorage <EmotesEntry> sEmotesStore(EmotesEntryfmt);
 DBCStorage <EmotesTextEntry> sEmotesTextStore(EmotesTextEntryfmt);
 
-typedef std::map<uint32, SimpleFactionsList> FactionTeamMap;
+using FactionTeamMap = std::map<uint32, SimpleFactionsList>;
 static FactionTeamMap sFactionTeamMap;
 DBCStorage <FactionEntry> sFactionStore(FactionEntryfmt);
 DBCStorage <FactionTemplateEntry> sFactionTemplateStore(FactionTemplateEntryfmt);
@@ -126,7 +126,7 @@ TalentSpellPosMap sTalentSpellPosMap;
 DBCStorage <TalentTabEntry> sTalentTabStore(TalentTabEntryfmt);
 
 // store absolute bit position for first rank for talent inspect
-typedef std::map<uint32, uint32> TalentInspectMap;
+using TalentInspectMap = std::map<uint32, uint32>;
 static TalentInspectMap sTalentPosInInspect;
 static TalentInspectMap sTalentTabSizeInInspect;
 static uint32 sTalentTabPages[12/*MAX_CLASSES*/][3];
@@ -147,7 +147,7 @@ DBCStorage <WorldMapAreaEntry>  sWorldMapAreaStore(WorldMapAreaEntryfmt);
 // DBCStorage <WorldMapOverlayEntry> sWorldMapOverlayStore(WorldMapOverlayEntryfmt);
 DBCStorage <WorldSafeLocsEntry> sWorldSafeLocsStore(WorldSafeLocsEntryfmt);
 
-typedef std::list<std::string> StoreProblemList;
+using StoreProblemList = std::list<std::string>;
 
 bool IsAcceptableClientBuild(uint32 build)
 {
@@ -590,7 +590,7 @@ SimpleFactionsList const* GetFactionTeamList(uint32 faction)
     FactionTeamMap::const_iterator itr = sFactionTeamMap.find(faction);
     if (itr == sFactionTeamMap.end())
     {
-        return NULL;
+        return nullptr;
     }
     return &itr->second;
 }
@@ -599,14 +599,14 @@ char const* GetPetName(uint32 petfamily, uint32 dbclang)
 {
     if (!petfamily)
     {
-        return NULL;
+        return nullptr;
     }
     CreatureFamilyEntry const* pet_family = sCreatureFamilyStore.LookupEntry(petfamily);
     if (!pet_family)
     {
-        return NULL;
+        return nullptr;
     }
-    return pet_family->Name[dbclang] ? pet_family->Name[dbclang] : NULL;
+    return pet_family->Name[dbclang] ? pet_family->Name[dbclang] : nullptr;
 }
 
 TalentSpellPos const* GetTalentSpellPos(uint32 spellId)
@@ -614,7 +614,7 @@ TalentSpellPos const* GetTalentSpellPos(uint32 spellId)
     TalentSpellPosMap::const_iterator itr = sTalentSpellPosMap.find(spellId);
     if (itr == sTalentSpellPosMap.end())
     {
-        return NULL;
+        return nullptr;
     }
 
     return &itr->second;
@@ -651,7 +651,7 @@ WMOAreaTableEntry const* GetWMOAreaTableEntryByTripple(int32 rootid, int32 adtid
     WMOAreaInfoByTripple::iterator i = sWMOAreaInfoByTripple.find(WMOAreaTableTripple(rootid, adtid, groupid));
     if (i == sWMOAreaInfoByTripple.end())
     {
-        return NULL;
+        return nullptr;
     }
     return i->second;
 }
@@ -664,7 +664,7 @@ AreaTableEntry const* GetAreaEntryByAreaID(uint32 area_id)
 AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag, uint32 map_id)
 {
     // 1.12.1 areatable have duplicates for areaflag
-    AreaTableEntry const* aEntry = NULL;
+    AreaTableEntry const* aEntry = nullptr;
     for (uint32 i = 0 ; i <= sAreaStore.GetNumRows() ; i++)
     {
         if (area_flag != 0)
@@ -695,7 +695,7 @@ AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag, uint32 map_
         return GetAreaEntryByAreaID(mapEntry->linked_zone);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 uint32 GetAreaFlagByMapId(uint32 mapid)
@@ -723,7 +723,7 @@ ChatChannelsEntry const* GetChannelEntryFor(uint32 channel_id)
             return ch;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 static ChatChannelsEntry worldCh = { 26, 4, "world" };
@@ -768,7 +768,7 @@ ChatChannelsEntry const* GetChannelEntryFor(const std::string& name)
         return &worldCh;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 

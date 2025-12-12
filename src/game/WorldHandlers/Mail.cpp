@@ -138,7 +138,7 @@ bool MailDraft::prepareItems(Player* receiver)
 
     m_mailTemplateItemsNeed = false;
 
-    Loot mailLoot(NULL);
+    Loot mailLoot(nullptr);
 
     // can be empty
     mailLoot.FillLoot(m_mailTemplateId, LootTemplates_Mail, receiver, true, true);
@@ -291,7 +291,7 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
 
     uint32 mailId = sObjectMgr.GenerateMailID();
 
-    time_t deliver_time = time(NULL) + deliver_delay;
+    time_t deliver_time = time(nullptr) + deliver_delay;
 
     // expire time if COD 3 days, if no COD 30 days, if auction sale pending 1 hour
     uint32 expire_delay;
@@ -401,7 +401,7 @@ void Mail::prepareTemplateItems(Player* receiver)
 
     has_items = true;
 
-    Loot mailLoot(NULL);
+    Loot mailLoot(nullptr);
 
     // can be empty
     mailLoot.FillLoot(mailTemplateId, LootTemplates_Mail, receiver, true, true);

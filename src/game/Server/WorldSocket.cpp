@@ -82,12 +82,12 @@ WorldSocket::WorldSocket(void) :
     WorldHandler(),
     m_LastPingTime(ACE_Time_Value::zero),
     m_OverSpeedPings(0),
-    m_Session(0),
-    m_RecvWPct(0),
+    m_Session(nullptr),
+    m_RecvWPct(nullptr),
     m_RecvPct(),
     m_Header(sizeof(ClientPktHeader)),
     m_OutBufferLock(),
-    m_OutBuffer(0),
+    m_OutBuffer(nullptr),
     m_OutBufferSize(65536),
     m_Seed(rand32())
 {
@@ -131,7 +131,7 @@ void WorldSocket::CloseSocket(void)
     closing_ = true;
     peer().close_writer();
 
-    m_Session = NULL;
+    m_Session = nullptr;
 }
 
 const std::string& WorldSocket::GetRemoteAddress(void) const
@@ -344,7 +344,7 @@ int WorldSocket::handle_close(ACE_HANDLE h, ACE_Reactor_Mask)
         }
     }
 
-    m_Session = NULL;
+    m_Session = nullptr;
 
     reactor()->remove_handler(this, ACE_Event_Handler::DONT_CALL | ACE_Event_Handler::ALL_EVENTS_MASK);
     return 0;
@@ -353,7 +353,7 @@ int WorldSocket::handle_close(ACE_HANDLE h, ACE_Reactor_Mask)
 
 int WorldSocket::handle_input_header(void)
 {
-    MANGOS_ASSERT(m_RecvWPct == NULL);
+    MANGOS_ASSERT(m_RecvWPct == nullptr);
 
     MANGOS_ASSERT(m_Header.length() == sizeof(ClientPktHeader));
 
@@ -397,13 +397,13 @@ int WorldSocket::handle_input_payload(void)
 
     MANGOS_ASSERT(m_RecvPct.space() == 0);
     MANGOS_ASSERT(m_Header.space() == 0);
-    MANGOS_ASSERT(m_RecvWPct != NULL);
+    MANGOS_ASSERT(m_RecvWPct != nullptr);
 
     const int ret = ProcessIncoming(m_RecvWPct);
 
-    m_RecvPct.base(NULL, 0);
+    m_RecvPct.base(nullptr, 0);
     m_RecvPct.reset();
-    m_RecvWPct = NULL;
+    m_RecvWPct = nullptr;
 
     m_Header.reset();
 
@@ -422,14 +422,14 @@ int WorldSocket::handle_input_missing_data(void)
     ACE_Data_Block db(sizeof(buf),
                       ACE_Message_Block::MB_DATA,
                       buf,
-                      0,
-                      0,
+                      nullptr,
+                      nullptr,
                       ACE_Message_Block::DONT_DELETE,
-                      0);
+                      nullptr);
 
     ACE_Message_Block message_block(&db,
                                     ACE_Message_Block::DONT_DELETE,
-                                    0);
+                                    nullptr);
 
     const size_t recv_size = message_block.space();
 
@@ -564,7 +564,7 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
                 return 0;
             default:
             {
-                if (m_Session != NULL)
+                if (m_Session != nullptr)
                 {
                     // OK ,give the packet to WorldSession
                     aptr.release();

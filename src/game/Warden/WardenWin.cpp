@@ -167,7 +167,7 @@ void WardenWin::RequestData()
     uint16 build = _session->GetClientBuild();
     uint16 id = 0;
     uint8 type = 0;
-    WardenCheck* wd = NULL;
+    WardenCheck* wd = nullptr;
 
     // If all checks were done, fill the todo list again
     if (_memChecksTodo.empty())

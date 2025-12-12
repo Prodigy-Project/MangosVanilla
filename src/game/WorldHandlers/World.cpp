@@ -122,7 +122,7 @@ World::World()
     m_allowMovement = true;
     m_ShutdownMask = 0;
     m_ShutdownTimer = 0;
-    m_gameTime = time(NULL);
+    m_gameTime = time(nullptr);
     m_startTime = m_gameTime;
     m_maxActiveSessionCount = 0;
     m_maxQueuedSessionCount = 0;
@@ -172,13 +172,13 @@ World::~World()
         m_sessions.erase(m_sessions.begin());
     }
 
-    CliCommandHolder* command = NULL;
+    CliCommandHolder* command = nullptr;
     while (cliCmdQueue.next(command))
     {
         delete command;
     }
 
-    WorldSession* session = NULL;
+    WorldSession* session = nullptr;
     while (addSessQueue.next(session))
     {
         delete session;
@@ -207,7 +207,7 @@ WorldSession* World::FindSession(uint32 id) const
     }                                 // also can return NULL for kicked session
     else
     {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -974,7 +974,7 @@ void World::LoadConfigSettings(bool reload)
 void World::SetInitialWorldSettings()
 {
     ///- Initialize the random number generator
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(nullptr));
 
     ///- Time server startup
     uint32 startupBegin = GameTime::GetGameTimeMS();
@@ -1416,7 +1416,7 @@ void World::SetInitialWorldSettings()
 
     ///- Initialize game time and timers
     sLog.outString("Initialize game time and timers");
-    m_gameTime = time(NULL);
+    m_gameTime = time(nullptr);
     m_startTime = m_gameTime;
 
     std::tm local;
@@ -1838,8 +1838,8 @@ namespace MaNGOS
     class WorldWorldTextBuilder
     {
         public:
-            typedef std::vector<WorldPacket*> WorldPacketList;
-            explicit WorldWorldTextBuilder(int32 textId, va_list* args = NULL) : i_textId(textId), i_args(args) {}
+            using WorldPacketList = std::vector<WorldPacket *>;
+            explicit WorldWorldTextBuilder(int32 textId, va_list* args = nullptr) : i_textId(textId), i_args(args) {}
             void operator()(WorldPacketList& data_list, int32 loc_idx)
             {
                 char const* text = sObjectMgr.GetMangosString(i_textId, loc_idx);
@@ -1865,7 +1865,7 @@ namespace MaNGOS
             char* lineFromMessage(char*& pos)
             {
                 char* start = strtok(pos, "\n");
-                pos = NULL;
+                pos = nullptr;
                 return start;
             }
             void do_helper(WorldPacketList& data_list, char* text)
@@ -2116,7 +2116,7 @@ bool World::RemoveBanAccount(BanMode mode, std::string nameOrIP)
 void World::_UpdateGameTime()
 {
     ///- update the time
-    time_t thisTime = time(NULL);
+    time_t thisTime = time(nullptr);
     uint32 elapsed = uint32(thisTime - m_gameTime);
     m_gameTime = thisTime;
 

@@ -49,13 +49,13 @@ GridMap::GridMap()
 
     // Area data
     m_gridArea = 0;
-    m_area_map = NULL;
+    m_area_map = nullptr;
 
     // Height level data
     m_gridHeight = INVALID_HEIGHT_VALUE;
     m_gridGetHeight = &GridMap::getHeightFromFlat;
-    m_V9 = NULL;
-    m_V8 = NULL;
+    m_V9 = nullptr;
+    m_V8 = nullptr;
     memset(m_holes, 0, sizeof(m_holes));
 
     // Liquid data
@@ -65,9 +65,9 @@ GridMap::GridMap()
     m_liquid_width  = 0;
     m_liquid_height = 0;
     m_liquidLevel = INVALID_HEIGHT_VALUE;
-    m_liquidFlags = NULL;
-    m_liquidEntry = NULL;
-    m_liquid_map  = NULL;
+    m_liquidFlags = nullptr;
+    m_liquidEntry = nullptr;
+    m_liquid_map  = nullptr;
 }
 
 GridMap::~GridMap()
@@ -143,12 +143,12 @@ void GridMap::unloadData()
     delete[] m_liquidFlags;
     delete[] m_liquid_map;
 
-    m_area_map = NULL;
-    m_V9 = NULL;
-    m_V8 = NULL;
-    m_liquidEntry = NULL;
-    m_liquidFlags = NULL;
-    m_liquid_map  = NULL;
+    m_area_map = nullptr;
+    m_V9 = nullptr;
+    m_V8 = nullptr;
+    m_liquidEntry = nullptr;
+    m_liquidFlags = nullptr;
+    m_liquid_map  = nullptr;
     m_gridGetHeight = &GridMap::getHeightFromFlat;
 }
 
@@ -812,7 +812,7 @@ TerrainInfo::TerrainInfo(uint32 mapid) : m_mapId(mapid), m_refMutex(), m_mutex()
     {
         for (int i = 0; i < MAX_NUMBER_OF_GRIDS; ++i)
         {
-            m_GridMaps[i][k] = NULL;
+            m_GridMaps[i][k] = nullptr;
             m_GridRef[i][k] = 0;
         }
     }
@@ -891,7 +891,7 @@ void TerrainInfo::CleanUpGrids(const uint32 diff)
             // delete those GridMap objects which have refcount = 0
             if (pMap && iRef == 0)
             {
-                m_GridMaps[x][y] = NULL;
+                m_GridMaps[x][y] = nullptr;
                 // delete grid data if reference count == 0
                 pMap->unloadData();
                 delete pMap;
@@ -1047,8 +1047,8 @@ uint16 TerrainInfo::GetAreaFlag(float x, float y, float z, bool* isOutdoors) con
 {
     uint32 mogpFlags;
     int32 adtId, rootId, groupId;
-    WMOAreaTableEntry const* wmoEntry = 0;
-    AreaTableEntry const* atEntry = 0;
+    WMOAreaTableEntry const* wmoEntry = nullptr;
+    AreaTableEntry const* atEntry = nullptr;
     bool haveAreaInfo = false;
 
     if (GetAreaInfo(x, y, z, mogpFlags, adtId, rootId, groupId))
@@ -1287,7 +1287,7 @@ GridMap* TerrainInfo::LoadMapAndVMap(const uint32 x, const uint32 y)
     // double checked lock pattern
     if (!m_GridMaps[x][y])
     {
-        ACE_GUARD_RETURN(LOCK_TYPE, lock, m_mutex, NULL)
+        ACE_GUARD_RETURN(LOCK_TYPE, lock, m_mutex, nullptr)
 
         if (!m_GridMaps[x][y])
         {
@@ -1379,7 +1379,7 @@ TerrainManager::~TerrainManager()
 
 TerrainInfo* TerrainManager::LoadTerrain(const uint32 mapId)
 {
-    ACE_GUARD_RETURN(LOCK_TYPE, _guard, m_mutex, NULL)
+    ACE_GUARD_RETURN(LOCK_TYPE, _guard, m_mutex, nullptr)
 
     TerrainDataMap::const_iterator iter = i_TerrainMap.find(mapId);
     if (iter == i_TerrainMap.end())

@@ -248,8 +248,8 @@ static void hook_signals()
 /// Unhook the signals before leaving
 static void unhook_signals()
 {
-    signal(SIGINT, 0);
-    signal(SIGTERM, 0);
+    signal(SIGINT, nullptr);
+    signal(SIGTERM, nullptr);
 #ifdef _WIN32
     signal(SIGBREAK, 0);
 #endif
@@ -402,8 +402,8 @@ int main(int argc, char** argv)
     OSSL_PROVIDER* deflt;
 
     /* Load Multiple providers into the default (NULL) library context */
-    legacy = OSSL_PROVIDER_load(NULL, "legacy");
-    if (legacy == NULL) {
+    legacy = OSSL_PROVIDER_load(nullptr, "legacy");
+    if (legacy == nullptr) {
         sLog.outError("Failed to load OpenSSL 3.x Legacy provider\n");
 #ifdef WIN32
         sLog.outError("\nPlease check you have set the following Enviroment Varible:\n");
@@ -413,8 +413,8 @@ int main(int argc, char** argv)
         Log::WaitBeforeContinueIfNeed();
         return 0;
     }
-    deflt = OSSL_PROVIDER_load(NULL, "default");
-    if (deflt == NULL) {
+    deflt = OSSL_PROVIDER_load(nullptr, "default");
+    if (deflt == nullptr) {
         sLog.outError("Failed to load OpenSSL 3.x Default provider\n");
         OSSL_PROVIDER_unload(legacy);
         Log::WaitBeforeContinueIfNeed();
@@ -496,20 +496,20 @@ int main(int argc, char** argv)
     uint16 port = sWorld.getConfig(CONFIG_UINT32_PORT_WORLD);
 
     WorldThread* worldThread = new WorldThread(port, host.c_str());
-    worldThread->open(0);
+    worldThread->open(nullptr);
 
 
     //************************************************************************************************************************
     // 2. Start the remote access listener thread
     //************************************************************************************************************************
-    RAThread* raThread = NULL;
+    RAThread* raThread = nullptr;
     if (sConfig.GetBoolDefault("Ra.Enable", false))
     {
         port = sConfig.GetIntDefault("Ra.Port", 3443);
         host = sConfig.GetStringDefault("Ra.IP", "0.0.0.0");
 
         raThread = new RAThread(port, host.c_str());
-        raThread->open(0);
+        raThread->open(nullptr);
     }
 
     //************************************************************************************************************************
@@ -537,13 +537,13 @@ int main(int argc, char** argv)
     // 4. Start the freeze catcher thread
     //************************************************************************************************************************
     AntiFreezeThread* freezeThread = new AntiFreezeThread(1000 * sConfig.GetIntDefault("MaxCoreStuckTime", 0));
-    freezeThread->open(NULL);
+    freezeThread->open(nullptr);
 
 
     //************************************************************************************************************************
     // 5. Start the console thread
     //************************************************************************************************************************
-    CliThread* cliThread = NULL;
+    CliThread* cliThread = nullptr;
 #ifdef _WIN32
     if (sConfig.GetBoolDefault("Console.Enable", true) && (m_ServiceStatus == -1)/* need disable console in service mode*/)
 #else

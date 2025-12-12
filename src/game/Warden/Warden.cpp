@@ -37,8 +37,8 @@
 #include "AccountMgr.h"
 #include "GameTime.h"
 
-Warden::Warden() : _session(NULL), _inputCrypto(16), _outputCrypto(16), _checkTimer(10000/*10 sec*/), _clientResponseTimer(0),
-                   _module(NULL), _state(WardenState::STATE_INITIAL)
+Warden::Warden() : _session(nullptr), _inputCrypto(16), _outputCrypto(16), _checkTimer(10000/*10 sec*/), _clientResponseTimer(0),
+                   _module(nullptr), _state(WardenState::STATE_INITIAL)
 {
     memset(_inputKey, 0, sizeof(_inputKey));
     memset(_outputKey, 0, sizeof(_outputKey));
@@ -50,7 +50,7 @@ Warden::~Warden()
 {
     delete[] _module->CompressedData;
     delete _module;
-    _module = NULL;
+    _module = nullptr;
 }
 
 void Warden::InitializeModule()

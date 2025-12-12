@@ -115,7 +115,7 @@ LanguageDesc const* GetLanguageDescByID(uint32 lang)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool SpellClickInfo::IsFitToRequirements(Player const* player, Creature const* clickedCreature) const
@@ -272,7 +272,7 @@ Group* ObjectMgr::GetGroupById(uint32 id) const
         return itr->second;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void ObjectMgr::AddLocaleString(std::string const& s, LocaleConstant locale, StringVector& data)
@@ -562,7 +562,7 @@ void ObjectMgr::LoadCreatureTemplates()
         }
 
         // used later for scale
-        CreatureDisplayInfoEntry const* displayScaleEntry = NULL;
+        CreatureDisplayInfoEntry const* displayScaleEntry = nullptr;
 
         for (int j = 0; j < MAX_CREATURE_MODEL; ++j)
         {
@@ -751,7 +751,7 @@ void ObjectMgr::ConvertCreatureAddonAuras(CreatureDataAddon* addon, char const* 
     // empty list
     if (val.empty())
     {
-        addon->auras = NULL;
+        addon->auras = nullptr;
         return;
     }
 
@@ -978,7 +978,7 @@ CreatureClassLvlStats const* ObjectMgr::GetCreatureClassLvlStats(uint32 level, u
         return cCLS;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void ObjectMgr::LoadEquipmentTemplates()
@@ -1064,7 +1064,7 @@ CreatureModelInfo const* ObjectMgr::GetCreatureModelRandomGender(uint32 display_
     CreatureModelInfo const* minfo = GetCreatureModelInfo(display_id);
     if (!minfo)
     {
-        return NULL;
+        return nullptr;
     }
 
     // If a model for another gender exists, 50% chance to use it
@@ -1394,7 +1394,7 @@ void ObjectMgr::LoadCreatures()
         uint32 guid         = fields[ 0].GetUInt32();
         uint32 entry        = fields[ 1].GetUInt32();
 
-        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_CREATURE_SPAWN, entry, NULL, 0, guid))
+        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_CREATURE_SPAWN, entry, nullptr, 0, guid))
         {
             sLog.outDebug("Creature guid %u (entry %u) spawning is disabled.", guid, entry);
             continue;
@@ -1570,7 +1570,7 @@ void ObjectMgr::LoadGameObjects()
         uint32 guid         = fields[ 0].GetUInt32();
         uint32 entry        = fields[ 1].GetUInt32();
 
-        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_GAMEOBJECT_SPAWN, entry, NULL, 0, guid))
+        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_GAMEOBJECT_SPAWN, entry, nullptr, 0, guid))
         {
             sLog.outDebug("Gameobject guid %u (entry %u) spawning is disabled.", guid, entry);
             continue;
@@ -2408,7 +2408,7 @@ void ObjectMgr::LoadPetLevelInfo()
 
             PetLevelInfo*& pInfoMapEntry = petInfo[creature_id];
 
-            if (pInfoMapEntry == NULL)
+            if (pInfoMapEntry == nullptr)
             {
                 pInfoMapEntry =  new PetLevelInfo[sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL)];
             }
@@ -2471,7 +2471,7 @@ PetLevelInfo const* ObjectMgr::GetPetLevelInfo(uint32 creature_id, uint32 level)
     PetLevelInfoMap::const_iterator itr = petInfo.find(creature_id);
     if (itr == petInfo.end())
     {
-        return NULL;
+        return nullptr;
     }
 
     return &itr->second[level - 1];                         // data for level 1 stored in [0] array element, ...
@@ -2741,7 +2741,7 @@ void ObjectMgr::LoadPlayerInfo()
                 uint32 action = fields[3].GetUInt32();
                 uint8 action_type = fields[4].GetUInt8();
 
-                if (!Player::IsActionButtonDataValid(action_button, action, action_type, NULL))
+                if (!Player::IsActionButtonDataValid(action_button, action, action_type, nullptr))
                 {
                     continue;
                 }
@@ -3070,8 +3070,8 @@ void ObjectMgr::LoadStandingList(uint32 dateBegin)
 
     uint32 guid, kills, side;
 
-    Field* fields = NULL;
-    QueryResult* result2 = NULL;
+    Field* fields = nullptr;
+    QueryResult* result2 = nullptr;
     // this query create an ordered standing list
     QueryResult* result = CharacterDatabase.PQuery("SELECT `guid`,SUM(`honor`) as honor_sum FROM `character_honor_cp` WHERE `TYPE` = %u AND `date` BETWEEN %u AND %u AND `used`=0 GROUP BY `guid` ORDER BY `honor_sum` DESC", HONORABLE, dateBegin, dateBegin + 7);
     if (result)
@@ -3184,7 +3184,7 @@ void ObjectMgr::FlushRankPoints(uint32 dateTop)
         CharacterDatabase.BeginTransaction();
         uint32 guid, kills;
         uint8 type;
-        Field* fields = NULL;
+        Field* fields = nullptr;
         do
         {
             fields = result->Fetch();
@@ -3233,8 +3233,8 @@ void ObjectMgr::DistributeRankPoints(uint32 team, uint32 dateBegin , bool flush 
 
     HonorScores scores = MaNGOS::Honor::GenerateScores(list, team);
 
-    Field* fields = NULL;
-    QueryResult* result = NULL;
+    Field* fields = nullptr;
+    QueryResult* result = nullptr;
     for (HonorStandingList::iterator itr = list.begin(); itr != list.end() ; ++itr)
     {
         RP = 0;
@@ -3283,7 +3283,7 @@ HonorStanding* ObjectMgr::GetHonorStandingByGUID(uint32 guid, uint32 side)
             return itr->GetInfo();
         }
 
-    return 0;
+    return nullptr;
 }
 
 
@@ -3301,7 +3301,7 @@ HonorStanding* ObjectMgr::GetHonorStandingByPosition(uint32 position, uint32 sid
         pos++;
     }
 
-    return 0;
+    return nullptr;
 }
 
 uint32 ObjectMgr::GetHonorStandingPositionByGUID(uint32 guid, uint32 side)
@@ -3505,7 +3505,7 @@ void ObjectMgr::LoadGroups()
     }
     else
     {
-        Group* group = NULL;                                // used as cached pointer for avoid relookup group for each member
+        Group* group = nullptr;                                // used as cached pointer for avoid relookup group for each member
 
         BarGoLink bar2(result->GetRowCount());
         do
@@ -3577,7 +3577,7 @@ void ObjectMgr::LoadGroups()
     }
     else
     {
-        Group* group = NULL;                                // used as cached pointer for avoid relookup group for each member
+        Group* group = nullptr;                                // used as cached pointer for avoid relookup group for each member
 
         BarGoLink bar2(result->GetRowCount());
         do
@@ -4488,7 +4488,7 @@ void ObjectMgr::LoadPetCreateSpells()
             continue;
         }
 
-        if (CreatureSpellDataEntry const* petSpellEntry = cInfo->PetSpellDataId ? sCreatureSpellDataStore.LookupEntry(cInfo->PetSpellDataId) : NULL)
+        if (CreatureSpellDataEntry const* petSpellEntry = cInfo->PetSpellDataId ? sCreatureSpellDataStore.LookupEntry(cInfo->PetSpellDataId) : nullptr)
         {
             sLog.outErrorDb("Creature id %u listed in `petcreateinfo_spell` have set `PetSpellDataId` field and will use its instead, skip.", creature_id);
             continue;
@@ -4571,7 +4571,7 @@ void ObjectMgr::LoadPetCreateSpells()
             continue;
         }
 
-        CreatureSpellDataEntry const* petSpellEntry = cInfo->PetSpellDataId ? sCreatureSpellDataStore.LookupEntry(cInfo->PetSpellDataId) : NULL;
+        CreatureSpellDataEntry const* petSpellEntry = cInfo->PetSpellDataId ? sCreatureSpellDataStore.LookupEntry(cInfo->PetSpellDataId) : nullptr;
         if (!petSpellEntry)
         {
             continue;
@@ -4845,7 +4845,7 @@ GossipText const* ObjectMgr::GetGossipText(uint32 Text_ID) const
     {
         return &itr->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 void ObjectMgr::LoadGossipText()
@@ -4992,7 +4992,7 @@ void ObjectMgr::LoadGossipTextLocales()
 /// @param serverUp true if the server is already running, false when the server is started
 void ObjectMgr::ReturnOrDeleteOldMails(bool serverUp)
 {
-    time_t curTime = time(NULL);
+    time_t curTime = time(nullptr);
     std::tm lt = safe_localtime(curTime);
     uint64 basetime(curTime);
     sLog.outString("Returning mails current time: hour: %d, minute: %d, second: %d ", lt.tm_hour, lt.tm_min, lt.tm_sec);
@@ -5039,7 +5039,7 @@ void ObjectMgr::ReturnOrDeleteOldMails(bool serverUp)
         m->checked = fields[7].GetUInt32();
         m->mailTemplateId = fields[8].GetInt16();
 
-        Player* pl = 0;
+        Player* pl = nullptr;
         if (serverUp)
         {
             pl = GetPlayer(m->receiverGuid);
@@ -5417,21 +5417,21 @@ WorldSafeLocsEntry const* ObjectMgr::GetClosestGraveYard(float x, float y, float
     if (bounds.first == bounds.second)
     {
         sLog.outErrorDb("Table `game_graveyard_zone` incomplete: Zone %u Team %u does not have a linked graveyard.", zoneId, uint32(team));
-        return NULL;
+        return nullptr;
     }
 
     // at corpse map
     bool foundNear = false;
     float distNear;
-    WorldSafeLocsEntry const* entryNear = NULL;
+    WorldSafeLocsEntry const* entryNear = nullptr;
 
     // at entrance map for corpse map
     bool foundEntr = false;
     float distEntr;
-    WorldSafeLocsEntry const* entryEntr = NULL;
+    WorldSafeLocsEntry const* entryEntr = nullptr;
 
     // some where other
-    WorldSafeLocsEntry const* entryFar = NULL;
+    WorldSafeLocsEntry const* entryFar = nullptr;
 
     InstanceTemplate const* tempEntry = GetInstanceTemplate(MapId);
 
@@ -5528,7 +5528,7 @@ GraveYardData const* ObjectMgr::FindGraveYardData(uint32 id, uint32 zoneId) cons
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool ObjectMgr::AddGraveYardLink(uint32 id, uint32 zoneId, Team team, bool inDB)
@@ -5665,12 +5665,12 @@ AreaTrigger const* ObjectMgr::GetGoBackTrigger(uint32 map_id) const
     InstanceTemplate const* temp = GetInstanceTemplate(map_id);
     if (!temp)
     {
-        return NULL;
+        return nullptr;
     }
 
     // Try to find one that teleports to the map we want to enter
     std::list<AreaTrigger const*> ghostTrigger;
-    AreaTrigger const* compareTrigger = NULL;
+    AreaTrigger const* compareTrigger = nullptr;
     for (AreaTriggerMap::const_iterator itr = mAreaTriggers.begin(); itr != mAreaTriggers.end(); ++itr)
     {
         if (itr->second.target_mapId == uint32(temp->ghostEntranceMap))
@@ -5714,7 +5714,7 @@ AreaTrigger const* ObjectMgr::GetGoBackTrigger(uint32 map_id) const
  */
 AreaTrigger const* ObjectMgr::GetMapEntranceTrigger(uint32 Map) const
 {
-    AreaTrigger const* compareTrigger = NULL;
+    AreaTrigger const* compareTrigger = nullptr;
     MapEntry const* mEntry = sMapStore.LookupEntry(Map);
 
     for (AreaTriggerMap::const_iterator itr = mAreaTriggers.begin(); itr != mAreaTriggers.end(); ++itr)
@@ -7817,7 +7817,7 @@ bool PlayerCondition::Meets(Player const* player, Map const* map, WorldObject co
                     }
                     if (Group const* grp = player->GetGroup())
                     {
-                        for (GroupReference const* itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
+                        for (GroupReference const* itr = grp->GetFirstMember(); itr != nullptr; itr = itr->next())
                         {
                             Player const* pl = itr->getSource();
                             if (pl && pl->IsAlive() && !pl->isGameMaster() && (!m_value2 || !source || source->IsWithinDistInMap(pl, m_value2)))
@@ -7846,7 +7846,7 @@ bool PlayerCondition::Meets(Player const* player, Map const* map, WorldObject co
             }
         case CONDITION_CREATURE_IN_RANGE:
         {
-            Creature* creature = NULL;
+            Creature* creature = nullptr;
 
             MaNGOS::NearestCreatureEntryWithLiveStateInObjectRangeCheck creature_check(*player, m_value1, true, false, m_value2, true);
             MaNGOS::CreatureLastSearcher<MaNGOS::NearestCreatureEntryWithLiveStateInObjectRangeCheck> searcher(creature, creature_check);
@@ -7856,7 +7856,7 @@ bool PlayerCondition::Meets(Player const* player, Map const* map, WorldObject co
         }
         case CONDITION_GAMEOBJECT_IN_RANGE:
         {
-            GameObject* pGo = NULL;
+            GameObject* pGo = nullptr;
 
             if (source)
             {
@@ -8489,20 +8489,20 @@ GameTele const* ObjectMgr::GetGameTele(const std::string& name) const
     std::wstring wname;
     if (!Utf8toWStr(name, wname))
     {
-        return NULL;
+        return nullptr;
     }
 
     // converting string that we try to find to lower case
     wstrToLower(wname);
 
     // Alternative first GameTele what contains wnameLow as substring in case no GameTele location found
-    const GameTele* alt = NULL;
+    const GameTele* alt = nullptr;
     for (GameTeleMap::const_iterator itr = m_GameTeleMap.begin(); itr != m_GameTeleMap.end(); ++itr)
         if (itr->second.wnameLow == wname)
         {
             return &itr->second;
         }
-        else if (alt == NULL && itr->second.wnameLow.find(wname) != std::wstring::npos)
+        else if (alt == nullptr && itr->second.wnameLow.find(wname) != std::wstring::npos)
         {
             alt = &itr->second;
         }
@@ -8664,7 +8664,7 @@ void ObjectMgr::LoadTrainers(char const* tableName, bool isTemplates)
                 continue;
             }
 
-            if (TrainerSpellData const* tSpells = cInfo->TrainerTemplateId ? GetNpcTrainerTemplateSpells(cInfo->TrainerTemplateId) : NULL)
+            if (TrainerSpellData const* tSpells = cInfo->TrainerTemplateId ? GetNpcTrainerTemplateSpells(cInfo->TrainerTemplateId) : nullptr)
             {
                 if (tSpells->spellList.find(spell) != tSpells->spellList.end())
                 {
@@ -8793,7 +8793,7 @@ void ObjectMgr::LoadVendors(char const* tableName, bool isTemplates)
         uint32 incrtime     = fields[3].GetUInt32();
         uint16 conditionId  = fields[4].GetUInt16();
 
-        if (!IsVendorItemValid(isTemplates, tableName, entry, item_id, maxcount, incrtime, conditionId, NULL, &skip_vendors))
+        if (!IsVendorItemValid(isTemplates, tableName, entry, item_id, maxcount, incrtime, conditionId, nullptr, &skip_vendors))
         {
             continue;
         }
@@ -9258,7 +9258,7 @@ bool ObjectMgr::RemoveVendorItem(uint32 entry, uint32 item)
 bool ObjectMgr::IsVendorItemValid(bool isTemplate, char const* tableName, uint32 vendor_entry, uint32 item_id, uint32 maxcount, uint32 incrtime, uint16 conditionId, Player* pl, std::set<uint32>* skip_vendors) const
 {
     char const* idStr = isTemplate ? "vendor template" : "vendor";
-    CreatureInfo const* cInfo = NULL;
+    CreatureInfo const* cInfo = nullptr;
 
     if (!isTemplate)
     {
@@ -9340,7 +9340,7 @@ bool ObjectMgr::IsVendorItemValid(bool isTemplate, char const* tableName, uint32
     }
 
     VendorItemData const* vItems = isTemplate ? GetNpcVendorTemplateItemList(vendor_entry) : GetNpcVendorItemList(vendor_entry);
-    VendorItemData const* tItems = isTemplate ? NULL : GetNpcVendorTemplateItemList(vendor_entry);
+    VendorItemData const* tItems = isTemplate ? nullptr : GetNpcVendorTemplateItemList(vendor_entry);
 
     if (!vItems && !tItems)
     {

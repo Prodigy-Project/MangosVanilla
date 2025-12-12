@@ -395,7 +395,7 @@ void AuctionHouseMgr::LoadAuctions()
         auction->startbid = fields[11].GetUInt32();
         auction->deposit = fields[12].GetUInt32();
 
-        auction->auctionHouseEntry = NULL;                  // init later
+        auction->auctionHouseEntry = nullptr;                  // init later
 
         // check if sold item exists for guid
         // and item_template in fact (GetAItem will fail if problematic in result check in AuctionHouseMgr::LoadAuctionItems)
@@ -729,7 +729,7 @@ AuctionEntry* AuctionHouseObject::AddAuction(AuctionHouseEntry const* auctionHou
     AH->bidder = 0;
     AH->bid = 0;
     AH->buyout = buyout;
-    AH->expireTime = time(NULL) + auction_time;
+    AH->expireTime = time(nullptr) + auction_time;
     AH->deposit = deposit;
     AH->auctionHouseEntry = auctionHouseEntry;
 
@@ -777,7 +777,7 @@ AuctionEntry* AuctionHouseObject::AddAuctionByGuid(AuctionHouseEntry const* auct
     AH->bidder = 0;
     AH->bid = 0;
     AH->buyout = buyout;
-    AH->expireTime = time(NULL) + auction_time;
+    AH->expireTime = time(nullptr) + auction_time;
     AH->deposit = 0;
     AH->auctionHouseEntry = auctionHouseEntry;
 
@@ -818,7 +818,7 @@ bool AuctionEntry::BuildAuctionInfo(WorldPacket& data) const
     data << uint32(startbid);                               // Auction->startbid (not sure if useful)
     data << uint32(bid ? GetAuctionOutBid() : 0);           // minimal outbid
     data << uint32(buyout);                                 // auction->buyout
-    data << uint32((expireTime - time(NULL))*IN_MILLISECONDS); // time left
+    data << uint32((expireTime - time(nullptr))*IN_MILLISECONDS); // time left
     data << ObjectGuid(HIGHGUID_PLAYER, bidder);            // auction->bidder current
     data << uint32(bid);                                    // current bid
     return true;
@@ -875,7 +875,7 @@ void AuctionEntry::AuctionBidWinning(Player* newbidder)
 
 bool AuctionEntry::UpdateBid(uint32 newbid, Player* newbidder /*=NULL*/)
 {
-    Player* auction_owner = owner ? sObjectMgr.GetPlayer(ObjectGuid(HIGHGUID_PLAYER, owner)) : NULL;
+    Player* auction_owner = owner ? sObjectMgr.GetPlayer(ObjectGuid(HIGHGUID_PLAYER, owner)) : nullptr;
 
     // bid can't be greater buyout
     if (buyout && newbid > buyout)

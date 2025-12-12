@@ -357,7 +357,7 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
 
     if (reason)
     {
-        LogoutRequest(time(0));
+        LogoutRequest(time(nullptr));
         return;
     }
 
@@ -381,7 +381,7 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
         GetPlayer()->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_STUNNED);
     }
 
-    LogoutRequest(time(NULL));
+    LogoutRequest(time(nullptr));
 }
 
 void WorldSession::HandlePlayerLogoutOpcode(WorldPacket& /*recv_data*/)
@@ -445,7 +445,7 @@ void WorldSession::HandleTogglePvP(WorldPacket& recv_data)
     {
         if (!GetPlayer()->pvpInfo.inHostileArea && GetPlayer()->IsPvP())
         {
-            GetPlayer()->pvpInfo.endTimer = time(NULL);      // start toggle-off
+            GetPlayer()->pvpInfo.endTimer = time(nullptr);      // start toggle-off
         }
     }
 }
@@ -766,7 +766,7 @@ void WorldSession::HandleReclaimCorpseOpcode(WorldPacket& recv_data)
     }
 
     // prevent resurrect before 30-sec delay after body release not finished
-    if (corpse->GetGhostTime() + GetPlayer()->GetCorpseReclaimDelay(corpse->GetType() == CORPSE_RESURRECTABLE_PVP) > time(NULL))
+    if (corpse->GetGhostTime() + GetPlayer()->GetCorpseReclaimDelay(corpse->GetType() == CORPSE_RESURRECTABLE_PVP) > time(nullptr))
     {
         return;
     }

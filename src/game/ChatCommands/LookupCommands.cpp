@@ -367,7 +367,7 @@ bool ChatHandler::HandleLookupFactionCommand(char* args)
 
             if (loc < MAX_LOCALE)
             {
-                FactionState const* repState = target ? target->GetReputationMgr().GetState(factionEntry) : NULL;
+                FactionState const* repState = target ? target->GetReputationMgr().GetState(factionEntry) : nullptr;
                 ShowFactionListHelper(factionEntry, LocaleConstant(loc), repState, target);
                 ++counter;
             }
@@ -551,7 +551,7 @@ bool ChatHandler::ShowAccountListHelper(QueryResult* result, uint32* limit, bool
         uint32 account = fields[0].GetUInt32();
 
         WorldSession* session = sWorld.FindSession(account);
-        Player* player = session ? session->GetPlayer() : NULL;
+        Player* player = session ? session->GetPlayer() : nullptr;
         char const* char_name = player ? player->GetName() : " - ";
 
         if (m_session)
@@ -699,7 +699,7 @@ bool ChatHandler::HandleLookupItemCommand(char* args)
 
     wstrToLower(wnamepart);
 
-    Player* pl = m_session ? m_session->GetPlayer() : NULL;
+    Player* pl = m_session ? m_session->GetPlayer() : nullptr;
 
     uint32 counter = 0;
 

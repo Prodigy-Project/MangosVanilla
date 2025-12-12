@@ -69,7 +69,7 @@ bool ChatHandler::HandlePInfoCommand(char* args)
     else
     {
         // check offline security
-        if (HasLowerSecurity(NULL, target_guid))
+        if (HasLowerSecurity(nullptr, target_guid))
         {
             return false;
         }
@@ -248,7 +248,7 @@ bool ChatHandler::HandleGMVisibleCommand(char* args)
     SpellEntry const* invisibleAuraInfo = sSpellStore.LookupEntry(sWorld.getConfig(CONFIG_UINT32_GM_INVISIBLE_AURA));
     if (!invisibleAuraInfo || !IsSpellAppliesAura(invisibleAuraInfo))
     {
-        invisibleAuraInfo = NULL;
+        invisibleAuraInfo = nullptr;
     }
 
     if (value)

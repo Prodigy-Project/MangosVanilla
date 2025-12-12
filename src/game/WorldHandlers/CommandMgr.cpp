@@ -100,7 +100,7 @@ CommandHelpLocale const* CommandMgr::GetCommandLocale(uint32 commandId) const
     CommandHelpLocaleMap::const_iterator itr = m_CommandHelpLocaleMap.find(commandId);
     if (itr == m_CommandHelpLocaleMap.end())
     {
-        return NULL;
+        return nullptr;
     }
     return &itr->second;
 }

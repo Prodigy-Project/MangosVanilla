@@ -99,7 +99,7 @@ bool ChatHandler::HandleSendMassMailCommand(char* args)
 {
     // format: raceMask "subject text" "mail text"
     uint32 raceMask = 0;
-    char const* name = NULL;
+    char const* name = nullptr;
 
     if (!ExtractRaceMask(&args, raceMask, &name))
     {
@@ -215,7 +215,7 @@ bool ChatHandler::HandleSendItemsHelper(MailDraft& draft, char* args)
     {
         uint32 item_id =  std::get<0>(*itr);
         uint32 item_count = std::get<1>(*itr);
-        if (Item* item = Item::CreateItem(item_id, item_count, m_session ? m_session->GetPlayer() : 0))
+        if (Item* item = Item::CreateItem(item_id, item_count, m_session ? m_session->GetPlayer() : nullptr))
         {
             uint32 item_enchant_id = std::get<2>(*itr);
             if (item_enchant_id)
@@ -263,7 +263,7 @@ bool ChatHandler::HandleSendMassItemsCommand(char* args)
     // format: racemask "subject text" "mail text" item1[:count1] item2[:count2] ... item12[:count12]
 
     uint32 raceMask = 0;
-    char const* name = NULL;
+    char const* name = nullptr;
 
     if (!ExtractRaceMask(&args, raceMask, &name))
     {
@@ -356,7 +356,7 @@ bool ChatHandler::HandleSendMassMoneyCommand(char* args)
     /// format: raceMask "subject text" "mail text" money
 
     uint32 raceMask = 0;
-    char const* name = NULL;
+    char const* name = nullptr;
 
     if (!ExtractRaceMask(&args, raceMask, &name))
     {

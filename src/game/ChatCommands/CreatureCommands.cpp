@@ -402,7 +402,7 @@ bool ChatHandler::HandleNpcFlagCommand(char* args)
 
 bool ChatHandler::HandleNpcDeleteCommand(char* args)
 {
-    Creature* unit = NULL;
+    Creature* unit = nullptr;
 
     if (*args)
     {
@@ -613,7 +613,7 @@ bool ChatHandler::HandleNpcSetMoveTypeCommand(char* args)
         return false;
     }
 
-    bool doNotDelete = ExtractLiteralArg(&args, "NODEL") != NULL;
+    bool doNotDelete = ExtractLiteralArg(&args, "NODEL") != nullptr;
     if (!doNotDelete && *args)                              // need fail if false in result wrong literal
     {
         return false;
@@ -1076,7 +1076,7 @@ bool ChatHandler::HandleNpcInfoCommand(char* /*args*/)
     uint32 Entry = target->GetEntry();
     CreatureInfo const* cInfo = target->GetCreatureInfo();
 
-    time_t curRespawnDelay = target->GetRespawnTimeEx() - time(NULL);
+    time_t curRespawnDelay = target->GetRespawnTimeEx() - time(nullptr);
     if (curRespawnDelay < 0)
     {
         curRespawnDelay = 0;

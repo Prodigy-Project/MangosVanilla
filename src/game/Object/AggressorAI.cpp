@@ -122,7 +122,7 @@ void AggressorAI::EnterEvadeMode()
     m_creature->DeleteThreatList();
     i_victimGuid.Clear();
     m_creature->CombatStop(true);
-    m_creature->SetLootRecipient(NULL);
+    m_creature->SetLootRecipient(nullptr);
 
     // Reset back to default spells template. This also resets timers.
     SetSpellsList(m_creature->GetCreatureInfo()->SpellListId);

@@ -38,9 +38,9 @@ namespace
     };
 
     // single disables here with optional data
-    typedef std::map<uint32, DisableData> DisableTypeMap;
+    using DisableTypeMap = std::map<uint32, DisableData>;
     // global disable map by source
-    typedef std::map<DisableType, DisableTypeMap> DisableMap;
+    using DisableMap = std::map<DisableType, DisableTypeMap>;
 
     DisableMap m_DisableMap;
 }
@@ -433,7 +433,7 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
 
 bool IsVMAPDisabledFor(uint32 entry, uint8 flags)
 {
-    return IsDisabledFor(DISABLE_TYPE_VMAP, entry, NULL, flags);
+    return IsDisabledFor(DISABLE_TYPE_VMAP, entry, nullptr, flags);
 }
 
 bool IsPathfindingEnabled(uint32 mapId)

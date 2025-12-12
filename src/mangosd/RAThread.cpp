@@ -45,7 +45,7 @@
 
 class RASocket: protected ACE_Svc_Handler < ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 {
-    typedef ACE_Svc_Handler < ACE_SOCK_STREAM, ACE_NULL_SYNCH> Base;
+    using Base = ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>;
 
     enum { RA_BUFF_SIZE = 8192 };
 
@@ -93,7 +93,7 @@ class RASocket: protected ACE_Svc_Handler < ACE_SOCK_STREAM, ACE_NULL_SYNCH>
             reference_counting_policy().value(ACE_Event_Handler::Reference_Counting_Policy::ENABLED);
         }
 
-        virtual ~RASocket(void)
+        ~RASocket(void) override
         {
             peer().close();
             sLog.outRALog("Connection was closed.");
@@ -376,7 +376,7 @@ class RASocket: protected ACE_Svc_Handler < ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 
 RAThread::RAThread(uint16 port, const char* host) : listen_addr(port, host)
 {
-    ACE_Reactor_Impl* imp = 0;
+    ACE_Reactor_Impl* imp = nullptr;
 
     imp = new ACE_TP_Reactor();
     imp->max_notify_iterations(128);

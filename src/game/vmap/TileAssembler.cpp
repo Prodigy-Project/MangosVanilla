@@ -86,7 +86,7 @@ namespace VMAP
     TileAssembler::TileAssembler(const std::string& pSrcDirName, const std::string& pDestDirName)
     {
         iCurrentUniqueNameId = 0;
-        iFilterMethod = NULL;
+        iFilterMethod = nullptr;
         iSrcDir = pSrcDirName;
         iDestDir = pDestDirName;
         // mkdir(iDestDir);
@@ -723,7 +723,7 @@ namespace VMAP
         }
 
         // Read liquid data if liquid flags are present
-        liquid = 0;
+        liquid = nullptr;
         if (liquidflags & 1)
         {
             WMOLiquidHeader hlq;

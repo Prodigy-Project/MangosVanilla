@@ -158,7 +158,7 @@ namespace VMAP
      *
      * @param other The WmoLiquid to copy from.
      */
-    WmoLiquid::WmoLiquid(const WmoLiquid& other) : iHeight(NULL), iFlags(NULL)
+    WmoLiquid::WmoLiquid(const WmoLiquid& other) : iHeight(nullptr), iFlags(nullptr)
     {
         *this = other;                                      // use assignment operator defined below
     }
@@ -199,7 +199,7 @@ namespace VMAP
         }
         else
         {
-            iHeight = NULL;
+            iHeight = nullptr;
         }
         if (other.iFlags)
         {
@@ -208,7 +208,7 @@ namespace VMAP
         }
         else
         {
-            iFlags = NULL;
+            iFlags = nullptr;
         }
 
         return *this;
@@ -383,7 +383,7 @@ namespace VMAP
      */
     GroupModel::GroupModel(const GroupModel& other) :
         iBound(other.iBound), iMogpFlags(other.iMogpFlags), iGroupWMOID(other.iGroupWMOID),
-        vertices(other.vertices), triangles(other.triangles), meshTree(other.meshTree), iLiquid(0)
+        vertices(other.vertices), triangles(other.triangles), meshTree(other.meshTree), iLiquid(nullptr)
     {
         if (other.iLiquid)
         {
@@ -522,7 +522,7 @@ namespace VMAP
         triangles.clear();
         vertices.clear();
         delete iLiquid;
-        iLiquid = 0;
+        iLiquid = nullptr;
 
         // Read bounding box
         if (result && fread(&iBound, sizeof(G3D::AABox), 1, rf) != 1)

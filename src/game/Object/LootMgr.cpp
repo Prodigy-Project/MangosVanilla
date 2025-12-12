@@ -258,7 +258,7 @@ LootTemplate const* LootStore::GetLootFor(uint32 loot_id) const
 
     if (tab == m_LootTemplates.end())
     {
-        return NULL;
+        return nullptr;
     }
 
     return tab->second;
@@ -569,7 +569,7 @@ bool Loot::FillLoot(uint32 loot_id, LootStore const& store, Player* loot_owner, 
     Group* pGroup = loot_owner->GetGroup();
     if (!personal && pGroup)
     {
-        for (GroupReference* itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
+        for (GroupReference* itr = pGroup->GetFirstMember(); itr != nullptr; itr = itr->next())
             if (Player* pl = itr->getSource())
             {
                 FillNotNormalLootFor(pl);
@@ -623,7 +623,7 @@ QuestItemList* Loot::FillFFALoot(Player* player)
     if (ql->empty())
     {
         delete ql;
-        return NULL;
+        return nullptr;
     }
 
     m_playerFFAItems[player->GetGUIDLow()] = ql;
@@ -634,7 +634,7 @@ QuestItemList* Loot::FillQuestLoot(Player* player)
 {
     if (items.size() == MAX_NR_LOOT_ITEMS)
     {
-        return NULL;
+        return nullptr;
     }
     QuestItemList* ql = new QuestItemList();
 
@@ -665,7 +665,7 @@ QuestItemList* Loot::FillQuestLoot(Player* player)
     if (ql->empty())
     {
         delete ql;
-        return NULL;
+        return nullptr;
     }
 
     m_playerQuestItems[player->GetGUIDLow()] = ql;
@@ -692,7 +692,7 @@ QuestItemList* Loot::FillNonQuestNonFFAConditionalLoot(Player* player)
     if (ql->empty())
     {
         delete ql;
-        return NULL;
+        return nullptr;
     }
 
     m_playerNonQuestNonFFAConditionalItems[player->GetGUIDLow()] = ql;
@@ -813,7 +813,7 @@ bool Loot::IsWinner(Player * player)
 
 LootItem* Loot::LootItemInSlot(uint32 lootSlot, Player* player, QuestItem** qitem, QuestItem** ffaitem, QuestItem** conditem)
 {
-    LootItem* item = NULL;
+    LootItem* item = nullptr;
     bool is_looted = true;
     if (lootSlot >= items.size())
     {
@@ -876,7 +876,7 @@ LootItem* Loot::LootItemInSlot(uint32 lootSlot, Player* player, QuestItem** qite
 
     if (is_looted)
     {
-        return NULL;
+        return nullptr;
     }
 
     return item;
@@ -1045,7 +1045,7 @@ LootStoreItem const* LootTemplate::LootGroup::Roll() const
         return &EqualChanced[irand(0, EqualChanced.size() - 1)];
     }
 
-    return NULL;                                            // Empty drop from the group
+    return nullptr;                                            // Empty drop from the group
 }
 
 // True if group includes at least 1 quest drop entry
@@ -1107,7 +1107,7 @@ bool LootTemplate::LootGroup::HasStartingQuestDropForPlayer(Player const* player
     ItemPrototype const* proto;
     for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
     {
-        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), nullptr, CONDITION_FROM_LOOT))
         {
             return false;
         }
@@ -1122,7 +1122,7 @@ bool LootTemplate::LootGroup::HasStartingQuestDropForPlayer(Player const* player
     }
     for (LootStoreItemList::const_iterator i = EqualChanced.begin(); i != EqualChanced.end(); ++i)
     {
-        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), nullptr, CONDITION_FROM_LOOT))
         {
             return false;
         }
@@ -1141,7 +1141,7 @@ bool LootTemplate::LootGroup::HasStartingQuestDropForPlayer(Player const* player
 void LootTemplate::LootGroup::Process(Loot& loot) const
 {
     LootStoreItem const* item = Roll();
-    if (item != NULL && !DisableMgr::IsDisabledFor(DISABLE_TYPE_ITEM_DROP, item->itemid))
+    if (item != nullptr && !DisableMgr::IsDisabledFor(DISABLE_TYPE_ITEM_DROP, item->itemid))
     {
         loot.AddItem(*item);
     }
@@ -1274,7 +1274,7 @@ void LootTemplate::Process(Loot& loot, LootStore const& store, bool rate, uint8 
             }
 
             // Check condition
-            if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, NULL, NULL, loot.GetLootTarget(), CONDITION_FROM_REFERING_LOOT))
+            if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, nullptr, nullptr, loot.GetLootTarget(), CONDITION_FROM_REFERING_LOOT))
             {
                 continue;
             }
@@ -1454,7 +1454,7 @@ bool LootTemplate::HasStartingQuestDropForPlayer(LootTemplateMap const& store, P
                 return true;
             }
         }
-        else if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+        else if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), nullptr, CONDITION_FROM_LOOT))
         {
             return false; // player doesn't respect the conditions.
         }

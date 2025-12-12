@@ -72,13 +72,13 @@ enum LogType
 const int LogType_count = int(LogError) + 1;
 
 Log::Log() :
-    raLogfile(NULL), logfile(NULL), gmLogfile(NULL), charLogfile(NULL), dberLogfile(NULL),
+    raLogfile(nullptr), logfile(nullptr), gmLogfile(nullptr), charLogfile(nullptr), dberLogfile(nullptr),
 #ifdef ENABLE_ELUNA
-    elunaErrLogfile(NULL),
+    elunaErrLogfile(nullptr),
 #endif /* ENABLE_ELUNA */
 
-    eventAiErLogfile(NULL), scriptErrLogFile(NULL), worldLogfile(NULL), wardenLogfile(NULL), m_colored(false),
-    m_includeTime(false), m_gmlog_per_account(false), m_scriptLibName(NULL)
+    eventAiErLogfile(nullptr), scriptErrLogFile(nullptr), worldLogfile(nullptr), wardenLogfile(nullptr), m_colored(false),
+    m_includeTime(false), m_gmlog_per_account(false), m_scriptLibName(nullptr)
 {
     Initialize();
 }
@@ -291,13 +291,13 @@ void Log::Initialize()
     }
 
     charLogfile = openLogFile("CharLogFile", "CharLogTimestamp", "a");
-    dberLogfile = openLogFile("DBErrorLogFile", NULL, "a");
+    dberLogfile = openLogFile("DBErrorLogFile", nullptr, "a");
 #ifdef ENABLE_ELUNA
-    elunaErrLogfile = openLogFile("ElunaErrorLogFile", NULL, "a");
+    elunaErrLogfile = openLogFile("ElunaErrorLogFile", nullptr, "a");
 #endif /* ENABLE_ELUNA */
 
-    eventAiErLogfile = openLogFile("EventAIErrorLogFile", NULL, "a");
-    raLogfile = openLogFile("RaLogFile", NULL, "a");
+    eventAiErLogfile = openLogFile("EventAIErrorLogFile", nullptr, "a");
+    raLogfile = openLogFile("RaLogFile", nullptr, "a");
     worldLogfile = openLogFile("WorldLogFile", "WorldLogTimestamp", "a");
     wardenLogfile = openLogFile("WardenLogFile", "WardenLogTimestamp", "a");
 
@@ -324,7 +324,7 @@ FILE* Log::openLogFile(char const* configFileName, char const* configTimeStampFl
     std::string logfn = sConfig.GetStringDefault(configFileName, "");
     if (logfn.empty())
     {
-        return NULL;
+        return nullptr;
     }
 
     if (configTimeStampFlag && sConfig.GetBoolDefault(configTimeStampFlag, false))
@@ -347,7 +347,7 @@ FILE* Log::openGmlogPerAccount(uint32 account)
 {
     if (m_gmlog_filename_format.empty())
     {
-        return NULL;
+        return nullptr;
     }
 
     char namebuf[MANGOS_PATH_MAX];
@@ -1263,7 +1263,7 @@ void Log::setScriptLibraryErrorFile(char const* fname, char const* libName)
 
     if (!fname)
     {
-        scriptErrLogFile = NULL;
+        scriptErrLogFile = nullptr;
         return;
     }
 

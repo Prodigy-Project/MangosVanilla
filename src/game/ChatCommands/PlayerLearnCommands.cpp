@@ -44,7 +44,7 @@ bool ChatHandler::HandleUnLearnCommand(char* args)
         return false;
     }
 
-    bool allRanks = ExtractLiteralArg(&args, "all") != NULL;
+    bool allRanks = ExtractLiteralArg(&args, "all") != nullptr;
     if (!allRanks && *args)                                 // can be fail also at syntax error
     {
         return false;
@@ -917,7 +917,7 @@ bool ChatHandler::HandleLearnCommand(char* args)
         return false;
     }
 
-    bool allRanks = ExtractLiteralArg(&args, "all") != NULL;
+    bool allRanks = ExtractLiteralArg(&args, "all") != nullptr;
     if (!allRanks && *args)                                 // can be fail also at syntax error
     {
         return false;
@@ -1061,7 +1061,7 @@ bool ChatHandler::HandleLearnAllRecipesCommand(char* args)
 
     std::string name;
 
-    SkillLineEntry const* targetSkillInfo = NULL;
+    SkillLineEntry const* targetSkillInfo = nullptr;
     for (uint32 i = 1; i < sSkillLineStore.GetNumRows(); ++i)
     {
         SkillLineEntry const* skillInfo = sSkillLineStore.LookupEntry(i);

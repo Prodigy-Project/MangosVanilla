@@ -537,7 +537,7 @@ int GetResetMailBitMask(char* args)
 {
     int optionBitMask = RESET_MAIL_COMMAND_FLAG_OPTION_NONE;
 
-    if (args == NULL)
+    if (args == nullptr)
     {
         return optionBitMask;
     }

@@ -37,7 +37,7 @@ struct DumpTable
     DumpTableType type;
 
     // helpers
-    bool isValid() const { return name != NULL; }
+    bool isValid() const { return name != nullptr; }
 };
 
 static DumpTable dumpTables[] =
@@ -63,7 +63,7 @@ static DumpTable dumpTables[] =
     { "character_gifts",                  DTT_ITEM_GIFT  }, //                  <- item guids
     { "item_instance",                    DTT_ITEM       }, //                  <- item guids
     { "item_loot",                        DTT_ITEM_LOOT  }, //                  <- item guids
-    { NULL,                               DTT_CHAR_TABLE }, // end marker
+    { nullptr,                               DTT_CHAR_TABLE }, // end marker
 };
 
 // Low level functions
@@ -331,7 +331,7 @@ void StoreGUID(QueryResult* result, uint32 data, uint32 field, std::set<uint32>&
 // Writing - High-level functions
 void PlayerDumpWriter::DumpTableContent(std::string& dump, uint32 guid, char const* tableFrom, char const* tableTo, DumpTableType type)
 {
-    GUIDs const* guids = NULL;
+    GUIDs const* guids = nullptr;
     char const* fieldname;
 
     switch (type)

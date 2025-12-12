@@ -65,7 +65,7 @@ int AntiFreezeThread::svc(void)
         else if (getMSTimeDiff(w_lastchange, curtime) > delaytime_)
         {
             sLog.outError("World Thread hangs, kicking out server!");
-            *((uint32 volatile*)NULL) = 0;          // bang crash
+            *((uint32 volatile*)nullptr) = 0;          // bang crash
         }
     }
 

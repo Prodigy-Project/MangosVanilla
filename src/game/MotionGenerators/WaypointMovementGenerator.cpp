@@ -211,7 +211,7 @@ void WaypointMovementGenerator<Creature>::OnArrived(Creature& creature)
 
             if (MangosStringLocale const* textData = sObjectMgr.GetMangosStringLocale(textId))
             {
-                creature.MonsterText(textData, NULL);
+                creature.MonsterText(textData, nullptr);
             }
             else
             {
